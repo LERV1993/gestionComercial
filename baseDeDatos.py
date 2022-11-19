@@ -78,7 +78,7 @@ class BaseDeDatos(object):
         sql = "INSERT INTO Ventas (fechaVenta,Factura,codigoBarraVent,nombreArticuloVent,CantidadVent,DNI_Cli_Vent,NombreCli,ApellidoCli,estadoIvaCli) VALUES (%s, %s, %s, %s,%s, %s, %s,%s,%s)"
         self.cursor.execute(sql,nuevaVenta)
         self.bd.commit()
-    def registraDevolución(self,nuevaDevolucion):
+    def registraDevolucion(self,nuevaDevolucion):
         sql = "INSERT INTO Devoluciones (codigoDevolucion, codigoBarra,cantidadArt,motivoDev,fecha) VALUES (%s, %s, %s, %s, %s)"
         self.cursor.execute(sql,nuevaDevolucion)
         self.bd.commit()
