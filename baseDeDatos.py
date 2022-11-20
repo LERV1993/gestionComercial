@@ -186,3 +186,7 @@ print(base.validaRegistrosTabla('Clientes'))
 #formato de Fecha '2022-11-04'
 
 # Las funciones que registran nuevos campos estan seteadas para que los argumentos sean listas
+
+
+
+#el nuevo push
