@@ -36,24 +36,3 @@ class opcMenu (object):
             return True
         else:
             return False
-
-
-### ------------------------------ Ejemplo ------------------------------ ###
-print1 = (f'''
-        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        --                    "Gestion interna"                    --
-        -----------------------------------------------------------------
-        --  1: Menu Proveedores --
-        --  2: Menu Clientes --
-        --  3: Menu Articulos --
-        --  4: Menu Ventas --
-        --  5: Salir.--
-        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        ''')
-print2 = (f'Desea comprar mas comida')
-
-menu = opcMenu()
-#opcionSeleccionada = menu.menuNum(print1,5)
-#print(opcionSeleccionada)
-#opcionSeleccionda2 = menu.menuSiNo(print2)
-#print(opcionSeleccionda2)

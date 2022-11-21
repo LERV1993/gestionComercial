@@ -89,10 +89,10 @@ class BaseDeDatos(object):
         for campo in resultado:
             registro.append(campo)
         cantidad = registro[4] + CantidadAIngresar
-        self.cursor.execute(f"UPDATE Articulos SET cantidadArt = '{CantidadAIngresar}' WHERE codigoBarra = {codigoDeBarraArticulo}")
+        self.cursor.execute(f"UPDATE Articulos SET cantidadArt = '{cantidad}' WHERE codigoBarra = {codigoDeBarraArticulo}")
         self.bd.commit()
     def modificarArticulo(self,codBarra,articuloModificado):
-        self.cursor.execute(f"UPDATE Articulos SET CUIL_CUIT_Prov = '{articuloModificado[5]}',cantidadArt = '{articuloModificado[4]}',precioArt = '{articuloModificado[3]}',categoriaArt = '{articuloModificado[2]}',nombreArticulo= '{articuloModificado[1]}',codigoBarra = '{articuloModificado[0]}' WHERE codigoBarra = {codBarra}")
+        self.cursor.execute(f"UPDATE Articulos SET cantidadArt = '{articuloModificado[4]}',precioArt = '{articuloModificado[3]}',categoriaArt = '{articuloModificado[2]}',nombreArticulo= '{articuloModificado[1]}',codigoBarra = '{articuloModificado[0]}' WHERE codigoBarra = {codBarra}")
         self.bd.commit()
     def registrarVenta(self,nuevaVenta):
         sql = "INSERT INTO Ventas (fechaVenta,Factura,codigoBarraVent,nombreArticuloVent,CantidadVent,DNI_Cli_Vent,NombreCli,ApellidoCli,estadoIvaCli) VALUES (%s, %s, %s, %s,%s, %s, %s,%s,%s)"
@@ -158,9 +158,3 @@ class BaseDeDatos(object):
         self.ventasTabla()
         self.devolucionesTabla()
         self.reposicionTabla()
-
-#proveedor = [99999999999,'Percant','Brasil 600',1169874521,'juan.perez@percant.com.ar','Inscripto']
-#base = BaseDeDatos()
-#base.inicializacionBase()
-#base.agregarValores()
-#base.modificarProveedor(30225474136,proveedor)
