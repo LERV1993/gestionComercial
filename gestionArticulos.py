@@ -12,8 +12,3 @@ class GestionArticulos(object):
         base.devolucionesTabla()
         base.reposicionTabla()
 
-
-
-
-gestionArt = GestionArticulos()
-valderrama = GestionArticulos()
