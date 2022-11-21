@@ -40,4 +40,4 @@ class GestionArticulos(object):
 articulo = [125547888888,'MEMORIA RAM ASTRO 8GB','Memorias',2300.57,4,30234568879]
 
 gesArt = GestionArticulos()
-gesArt.altaArt(articulo)
+#gesArt.altaArt(articulo)

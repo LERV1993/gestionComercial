@@ -27,15 +27,15 @@ class BaseDeDatos(object):
     def clientesTabla(self):
         self.cursor.execute("CREATE TABLE IF NOT EXISTS Clientes(DNI_Cli INT PRIMARY KEY,NombreCli VARCHAR (30),ApellidoCli VARCHAR(30),direccionCli VARCHAR(30),telefonoCli BIGINT,mailCli VARCHAR(30),estadoIvaCli VARCHAR(30))")
     def proveedoresTabla(self):
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS Proveedores(CUIL_CUIT_Prov INT PRIMARY KEY,Nombre_Prov VARCHAR(30),Direccion_Prov VARCHAR(30),Telefono_Prov BIGINT,Mail_Prov VARCHAR(30),estadoIvaProv VARCHAR(30))")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS Proveedores(CUIL_CUIT_Prov BIGINT PRIMARY KEY,Nombre_Prov VARCHAR(30),Direccion_Prov VARCHAR(30),Telefono_Prov BIGINT,Mail_Prov VARCHAR(30),estadoIvaProv VARCHAR(30))")
     def articulosTabla(self):
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS Articulos(codigoBarra BIGINT PRIMARY KEY,nombreArticulo VARCHAR(30),categoriaArt VARCHAR(30),precioArt DECIMAL(8,2),cantidadArt INT,CUIL_CUIT_Prov BIGINT)")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS Articulos(codigoBarra BIGINT PRIMARY KEY,nombreArticulo VARCHAR(30),categoriaArt VARCHAR(30),precioArt DECIMAL(8,2),cantidadArt INT,CUIL_CUIT_Prov BIGINT,CONSTRAINT `FK_Cuil_Cuit` FOREIGN KEY (`CUIL_CUIT_Prov`) REFERENCES `proveedores` (`CUIL_CUIT_Prov`) ON UPDATE CASCADE ON DELETE RESTRICT)")
     def devolucionesTabla(self):
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS Devoluciones(codigoDevolucion INT PRIMARY KEY, codigoBarra BIGINT,cantidadArt INT,motivoDev VARCHAR(30),fecha DATE)")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS Devoluciones(codigoDevolucion INT PRIMARY KEY, codigoBarra1 BIGINT,cantidadArt INT,CUIL_CUIT_Prov1 BIGINT,motivoDev VARCHAR(30),fecha DATE, CONSTRAINT `FK2_Cuil_Cuit` FOREIGN KEY (`CUIL_CUIT_Prov1`) REFERENCES `proveedores` (`CUIL_CUIT_Prov`) ON UPDATE CASCADE ON DELETE RESTRICT, CONSTRAINT `FK_Cod_Barra` FOREIGN KEY (`codigoBarra1`) REFERENCES `articulos` (`codigoBarra`) ON UPDATE CASCADE ON DELETE RESTRICT)")
     def ventasTabla(self):
-         self.cursor.execute("CREATE TABLE IF NOT EXISTS Ventas(CodigoVent INT AUTO_INCREMENT PRIMARY KEY,fechaVenta DATE,Factura BIGINT,codigoBarraVent BIGINT,nombreArticuloVent VARCHAR(30),CantidadVent INT,DNI_Cli_Vent INT,precioArt DECIMAL(8,2),NombreCli VARCHAR(30),ApellidoCli VARCHAR(30),estadoIvaCli VARCHAR(30))")
+         self.cursor.execute("CREATE TABLE IF NOT EXISTS Ventas(CodigoVent INT AUTO_INCREMENT PRIMARY KEY,fechaVenta DATE,Factura BIGINT,codigoBarraVent BIGINT,nombreArticuloVent VARCHAR(30),CantidadVent INT,DNI_Cli_Vent INT,precioArt DECIMAL(8,2),NombreCli VARCHAR(30),ApellidoCli VARCHAR(30),estadoIvaCli VARCHAR(30),CONSTRAINT `FK_CodBarraVent` FOREIGN KEY (`codigoBarraVent`) REFERENCES `articulos` (`codigoBarra`) ON UPDATE CASCADE ON DELETE RESTRICT,CONSTRAINT `FK_DNI_Cli` FOREIGN KEY (`DNI_Cli_Vent`) REFERENCES `Clientes` (`DNI_Cli`) ON UPDATE CASCADE ON DELETE RESTRICT)")
     def reposicionTabla(self):
-         self.cursor.execute("CREATE TABLE IF NOT EXISTS ordenesDeArticulos(nroOrden INT AUTO_INCREMENT PRIMARY KEY,codigoBarra BIGINT,cantidad INT,nombreArticulo VARCHAR(30),fechaSolicitud DATE,proveedor VARCHAR(30),estado VARCHAR(30))")
+         self.cursor.execute("CREATE TABLE IF NOT EXISTS ordenesDeArticulos(nroOrden INT AUTO_INCREMENT PRIMARY KEY,codigoBarra BIGINT,cantidad INT,nombreArticulo VARCHAR(30),fechaSolicitud DATE,CUIL_CUIT_Prov BIGINT,estado VARCHAR(30), CONSTRAINT `FK_CodBarraArt` FOREIGN KEY (`codigoBarra`) REFERENCES `articulos` (`codigoBarra`) ON UPDATE CASCADE ON DELETE RESTRICT, CONSTRAINT `FK_Cuil_Cuit_Prov` FOREIGN KEY (`CUIL_CUIT_Prov`) REFERENCES `proveedores` (`CUIL_CUIT_Prov`) ON UPDATE CASCADE ON DELETE RESTRICT)")
     def agregarValores(self):
         sql = "INSERT INTO Clientes (DNI_Cli, NombreCli, ApellidoCli, direccionCli, telefonoCli, mailCli, estadoIvaCli) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         val = [
@@ -60,7 +60,7 @@ class BaseDeDatos(object):
             (125547888888,'MEMORIA RAM ASTRO 8GB','Memorias',2300.50,4,30234568879),
             (203500002554,'CPU CORE I3 INTEL','Procesadores',33000.98,3,20159753354),
             (725547866666,'GABINETE SMG 2300','Gabinetes',12000.00,3,20369552458),
-            (825547877777,'FUENTE 650W PERCANT 80GOLD PLUS','Fuentes',6000.00,3,30225474136)
+            (825547877777,'FUENTE 650W PERCANT','Fuentes',6000.00,3,30225474136)
         ]
         self.cursor.executemany(sql,val)
         self.bd.commit()
@@ -158,3 +158,9 @@ class BaseDeDatos(object):
         self.ventasTabla()
         self.devolucionesTabla()
         self.reposicionTabla()
+
+#proveedor = [99999999999,'Percant','Brasil 600',1169874521,'juan.perez@percant.com.ar','Inscripto']
+#base = BaseDeDatos()
+#base.inicializacionBase()
+#base.agregarValores()
+#base.modificarProveedor(30225474136,proveedor)
