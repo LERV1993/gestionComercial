@@ -25,17 +25,17 @@ class BaseDeDatos(object):
         )
         self.cursor = self.bd.cursor()
     def clientesTabla(self):
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS Clientes(DNI_Cli INT PRIMARY KEY,NombreCli VARCHAR (255),ApellidoCli VARCHAR(255),direccionCli VARCHAR(255),telefonoCli BIGINT,mailCli VARCHAR(255),estadoIvaCli VARCHAR(255))")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS Clientes(DNI_Cli INT PRIMARY KEY,NombreCli VARCHAR (30),ApellidoCli VARCHAR(30),direccionCli VARCHAR(30),telefonoCli BIGINT,mailCli VARCHAR(30),estadoIvaCli VARCHAR(30))")
     def proveedoresTabla(self):
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS Proveedores(CUIL_CUIT_Prov BIGINT PRIMARY KEY,Nombre_Prov VARCHAR(255),Direccion_Prov VARCHAR(255),Telefono_Prov BIGINT,Mail_Prov VARCHAR(255),estadoIvaProv VARCHAR(255))")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS Proveedores(CUIL_CUIT_Prov INT PRIMARY KEY,Nombre_Prov VARCHAR(30),Direccion_Prov VARCHAR(30),Telefono_Prov BIGINT,Mail_Prov VARCHAR(30),estadoIvaProv VARCHAR(30))")
     def articulosTabla(self):
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS Articulos(codigoBarra BIGINT PRIMARY KEY,nombreArticulo VARCHAR(255),categoriaArt VARCHAR(255),precioArt DECIMAL(8,2),cantidadArt INT,CUIL_CUIT_Prov BIGINT)")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS Articulos(codigoBarra BIGINT PRIMARY KEY,nombreArticulo VARCHAR(30),categoriaArt VARCHAR(30),precioArt DECIMAL(8,2),cantidadArt INT,CUIL_CUIT_Prov BIGINT)")
     def devolucionesTabla(self):
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS Devoluciones(codigoDevolucion INT PRIMARY KEY, codigoBarra BIGINT,cantidadArt INT,motivoDev VARCHAR(255),fecha DATE)")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS Devoluciones(codigoDevolucion INT PRIMARY KEY, codigoBarra BIGINT,cantidadArt INT,motivoDev VARCHAR(30),fecha DATE)")
     def ventasTabla(self):
-         self.cursor.execute("CREATE TABLE IF NOT EXISTS Ventas(CodigoVent INT AUTO_INCREMENT PRIMARY KEY,fechaVenta DATE,Factura BIGINT,codigoBarraVent BIGINT,nombreArticuloVent VARCHAR(255),CantidadVent INT,DNI_Cli_Vent INT,NombreCli VARCHAR(255),ApellidoCli VARCHAR(255),estadoIvaCli VARCHAR(255))")
+         self.cursor.execute("CREATE TABLE IF NOT EXISTS Ventas(CodigoVent INT AUTO_INCREMENT PRIMARY KEY,fechaVenta DATE,Factura BIGINT,codigoBarraVent BIGINT,nombreArticuloVent VARCHAR(30),CantidadVent INT,DNI_Cli_Vent INT,precioArt DECIMAL(8,2),NombreCli VARCHAR(30),ApellidoCli VARCHAR(30),estadoIvaCli VARCHAR(30))")
     def reposicionTabla(self):
-         self.cursor.execute("CREATE TABLE IF NOT EXISTS ordenesDeArticulos(nroOrden INT AUTO_INCREMENT PRIMARY KEY,codigoBarra BIGINT,cantidad INT,nombreArticulo VARCHAR(255),fechaSolicitud DATE,proveedor VARCHAR(255),estado VARCHAR(50))")
+         self.cursor.execute("CREATE TABLE IF NOT EXISTS ordenesDeArticulos(nroOrden INT AUTO_INCREMENT PRIMARY KEY,codigoBarra BIGINT,cantidad INT,nombreArticulo VARCHAR(30),fechaSolicitud DATE,proveedor VARCHAR(30),estado VARCHAR(30))")
     def agregarValores(self):
         sql = "INSERT INTO Clientes (DNI_Cli, NombreCli, ApellidoCli, direccionCli, telefonoCli, mailCli, estadoIvaCli) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         val = [
@@ -57,10 +57,10 @@ class BaseDeDatos(object):
         self.bd.commit()
         sql = "INSERT INTO Articulos (codigoBarra, nombreArticulo, categoriaArt, precioArt, cantidadArt, CUIL_CUIT_Prov) VALUES (%s, %s, %s, %s, %s,%s)"
         val = [
-            (2035000025547888888,'MEMORIA RAM ASTRO 8GB','Memorias',2300.50,4,30234568879),
-            (2035000025547855555,'CPU CORE I3 INTEL','Procesadores',33000.98,3,20159753354),
-            (2035000025547866666,'GABINETE SMG 2300','Gabinetes',12000.00,3,20369552458),
-            (2035000025547877777,'FUENTE 650W PERCANT 80GOLD PLUS','Fuentes',6000.00,3,30225474136)
+            (125547888888,'MEMORIA RAM ASTRO 8GB','Memorias',2300.50,4,30234568879),
+            (203500002554,'CPU CORE I3 INTEL','Procesadores',33000.98,3,20159753354),
+            (725547866666,'GABINETE SMG 2300','Gabinetes',12000.00,3,20369552458),
+            (825547877777,'FUENTE 650W PERCANT 80GOLD PLUS','Fuentes',6000.00,3,30225474136)
         ]
         self.cursor.executemany(sql,val)
         self.bd.commit()
@@ -150,43 +150,3 @@ class BaseDeDatos(object):
         registros = self.cursor.fetchall()
         return(registros)
 
-        
-
-
-base = BaseDeDatos()
-base.crearBase()
-base.conectarBaseDeDatos()
-base.clientesTabla()
-base.proveedoresTabla()
-base.articulosTabla()
-base.devolucionesTabla()
-base.ventasTabla()
-base.reposicionTabla()
-print(base.validaRegistrosTabla('Clientes'))
-#base.modificarArticulo(2035000025547888888,articulo)
-#base.modificarProveedor(30234568866,proveedor)
-#base.registrarVenta(venta)
-#base.agregarValores()
-#base.altaCliente(cliente)  
-#base.modificarCliente(40123039,cliente)
-#base.borrarRegistro('Clientes','DNI_Cli',40123066)
-
-## -------------------  Ejemplos de formato de datos -----------------------------
-#cliente = [40123033,'Antonella', 'Lopez','Superi 1111',1512345678,'antonella.lopez@hotmail.com','Inscripto']
-
-#articulo = [2035000025547888888,'MEMORIA RAM ASTRO 8GB','Memorias',2300.50,4,30234568879]
-
-#proveedor = [30234568879,'Astro','Montana 125',1168674500,'carla.suarez@astro.com','Inscripto']
-
-##### VENTA no se registra el codigo de venta ya que este posee un id auto incremental
-#venta = ['2022-11-04',123123123123,2035000025547888888,'MEMORIA RAM ASTRO 8GB',1,40123033,'Antonella','Lopez','Inscripto']
-
-#devolucion = ['11235552',2035000025547888888,1,'Falla en Gtia','2022-11-04']
-
-#formato de Fecha '2022-11-04'
-
-# Las funciones que registran nuevos campos estan seteadas para que los argumentos sean listas
-
-
-
-#el nuevo push
