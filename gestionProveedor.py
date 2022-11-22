@@ -11,7 +11,7 @@ class GestionProveedor(object):
     def __init__(self):
         self.base = BaseDeDatos()
         self.base.inicializacionBase()
-    """
+   """
     def altaProv(self,Prov,proveedor):
         IngresoProveedor=self.base.hacerConsulta('Proveedores','CUIL_CUIT_Prov',Prov)
         if not type(IngresoProveedor)==str:
