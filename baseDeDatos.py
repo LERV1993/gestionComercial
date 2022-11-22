@@ -145,6 +145,16 @@ class BaseDeDatos(object):
             return listaResultado
         else:
             return("\nNo hay registros para el dato consultado.")
+    def consultarStock(self,tabla,campo,dato):
+        self.cursor.execute(f"SELECT * FROM {tabla} where {campo} = {dato}")
+        resultado = self.cursor.fetchall()
+        if not (resultado) is None:
+            listaResultado = []
+            for registro in resultado:
+                listaResultado.append(registro)
+            return listaResultado
+        else:
+            return("\nNo hay registros para el dato consultado.")
     def cantidadDeRegistros(self,tabla):
         self.cursor.execute(f"SELECT * FROM {tabla} LIMIT 100")
         registros = self.cursor.fetchall()

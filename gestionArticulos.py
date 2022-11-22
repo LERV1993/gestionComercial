@@ -7,19 +7,6 @@ class GestionArticulos(object):
         self.base = BaseDeDatos()
         self.base.inicializacionBase()
         self.menu = opcMenu()
-        (f'''
-        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        --                    "Menu Articulos"                       --
-        -----------------------------------------------------------------
-        --  1: Alta Articulos --
-        --  2: Baja Articulos --
-        --  3: Modificacion Articulos --
-        --  4: Ingreso de Articulo --
-        --  5: Ingreso de remito.--
-        --  6: Listado de articulos --
-        --  7: Salir. --
-        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        ''')
     def altaArt(self,codBarra,articulo):
         artAGenerar = self.base.hacerConsulta('Articulos','codigoBarra',codBarra)
         if  type(artAGenerar) == str:
@@ -57,15 +44,15 @@ class GestionArticulos(object):
         else:
             print('\nEl codigo de barra ingresado no se encuentra registrado.')
     def modificacionArt(self,codBarra,artModificado):
-        artAModificar = self.base.hacerConsulta('Articulos','codigoBarra',codBarra)
-        if  not type(artAModificar) == str:
+        artAModificar1 = self.base.hacerConsulta('Articulos','codigoBarra',codBarra)
+        if  not type(artAModificar1) == str:
             print1 = (f'''Verifique los campos modificados del articulo:
                         Código de barra:  {artModificado[0]}
                         Nombre de artículo:  {artModificado[1]}
                         Categoría de artículo: {artModificado[2]}
                         Precio: {artModificado[3]}
                         Cantidad: {artModificado[4]}
-                        Cuit de proveedor: {artAModificar[5]}''')
+                        ''')
             if self.menu.menuSiNo(print1):
                 os.system('cls')
                 self.base.modificarArticulo(codBarra,artModificado)
@@ -93,7 +80,7 @@ class GestionArticulos(object):
         for registro in registros:
             listaRegistros.append(list(registro))
         tablaArticulos = """\
-                        ---------------------- Se muestra un limite de 100 registros ----------------------                           
+                        ---------------------- Se muestra un límite de 100 registros ----------------------                           
 +-----------------------------------------------------------------------------------------------------------------------------------+
 |   CODIGO DE BARRA               NOMBRE                  CATEGORIA        PRECIO        CANTIDAD            CUIT-PROVEEDOR         |   
 |-----------------------------------------------------------------------------------------------------------------------------------|
@@ -104,3 +91,23 @@ class GestionArticulos(object):
  for fila in listaRegistros)))
         os.system('cls')
         print(tablaArticulos)
+    def listadoSinStock(self):
+        listaRegistros = []
+        registros= self.base.consultarStock('Articulos','CantidadArt',0)
+        if len(registros) > 0:
+            for registro in registros:
+                listaRegistros.append(list(registro))
+            tablaArticulos = """\
+                            ---------------------- Se muestra un límite de 100 registros ----------------------                           
+    +-----------------------------------------------------------------------------------------------------------------------------------+
+    |   CODIGO DE BARRA               NOMBRE                  CATEGORIA        PRECIO        CANTIDAD            CUIT-PROVEEDOR         |   
+    |-----------------------------------------------------------------------------------------------------------------------------------|
+    {}
+    +-----------------------------------------------------------------------------------------------------------------------------------+\
+    """
+            tablaArticulos = (tablaArticulos.format('\n'.join("| {0:^18} |{1:^30} |{2:^15} |{3:^15}| {4:^10} | {5:^30} |".format(*fila)
+    for fila in listaRegistros)))
+            os.system('cls')
+            print(tablaArticulos)
+        else:
+            print("\nPor el momento no se registran faltantes de stock.")

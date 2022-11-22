@@ -129,9 +129,10 @@ class gestion_comercial():
         --  1: Alta Articulos --
         --  2: Baja Articulos --
         --  3: Modificacion Articulos --
-        --  4: Ingreso de remito.--
-        --  5: Listado de articulos --
-        --  6: Salir. --
+        --  4: Ingreso de Articulo --
+        --  5: Ingreso de remito.--
+        --  6: Listado de articulos --
+        --  7: Salir. --
         -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
         ''')
         self.seleccion = 0
