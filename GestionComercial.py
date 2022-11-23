@@ -60,8 +60,113 @@ class GestionComercial (object):
         self.val = Validacion()
         self.base = BaseDeDatos()
         self.base.inicializacionBase()
+    def menuArticulos(self):
+        seleccion = self.menu.menuNum(self.menuArt,7)
+        if seleccion == 1:
+            nuevoCodBarra = self.val.numero('Código de Barra',99999999999,999999999999)
+            nuevoCuit = self.val.numero('CUIT',9999999999,99999999999)
+            cuitExiste = self.base.hacerConsulta('Proveedores','CUIL_CUIT_Prov',nuevoCuit)
+            artACrear = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)
+            if type(artACrear) == str and not type(cuitExiste) == str:
+                nuevoNom = self.val.string30('Nombre de artículo')
+                nuevaCat = self.val.stringSinNum('Categoría')
+                nuevoPrecio = self.val.precio('Precio',0.1,999999.99)
+                nuevaCant = self.val.numero('número de existencias',1,999)
+                nuevoArt = [nuevoCodBarra,nuevoNom,nuevaCat,nuevoPrecio,nuevaCant,nuevoCuit]
+                self.gestArt.altaArt(nuevoArt[0],nuevoArt)
+                print("\nSe salió del menu de alta de artículos.")
+            elif type(cuitExiste) == str:
+                print("""\nEl CUIT ingresado no corresponde a ningún proveedor registrado.
+                    Genere el alta de proveedor y vuelva a ingrear el artículo.
+                    Se salió del menu de alta de artículos.""")
+            else:
+                print("\nEl código de barra ingresado ya corresponde a un articulo registrado.\nSe salió del menu de alta de artículos.")
+        if seleccion == 2:
+            nuevoCodBarra = self.val.numero('Código de Barra',99999999999,999999999999)
+            artABorrar = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)
+            if not type(artABorrar) == str:
+                self.gestArt.bajaArt(nuevoCodBarra)
+                print("\nSe salió del menu de alta de artículos.")
+        if seleccion == 3:
+            printModiArt = ('''
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            --                    "Modificación de Artículo"               --
+            -----------------------------------------------------------------
+            --  1: Modificar Codigo de Barra                               --
+            --  2: Modificar Nombre                                        --
+            --  3: Modificar Categoría                                     --
+            --  4: Modificar precio                                        --
+            --  5: Modificar Cantidad                                      --
+            --  6: Modificar Todo                                          --
+            --  7: Salir                                                   --
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            ''')
+            codBarra = self.val.numero('Código de Barra',99999999999,999999999999)
+            artAMod = self.base.hacerConsulta("Articulos","codigoBarra",codBarra)
+            if not type(artAMod) == str:
+                seleccion = self.menu.menuNum(printModiArt,7)
+                if seleccion == 1:
+                    nuevoCodBarra = self.val.numero('Nuevo Código de Barra',99999999999,999999999999)
+                    artAMod[0] = nuevoCodBarra
+                    self.gestArt.modificacionArt(codBarra,artAMod[0:5])
+                    print("\nSe salió del menu de alta de artículos.")
+                if seleccion == 2:
+                    nuevoNom = self.val.string30('Nuevo Nombre de artículo')
+                    artAMod[1] = nuevoNom
+                    self.gestArt.modificacionArt(codBarra,artAMod[0:5])
+                    print("\nSe salió del menu de alta de artículos.")
+                if seleccion == 3:
+                    nuevaCat = self.val.stringSinNum('Nueva Categoría')
+                    artAMod[2] = nuevaCat
+                    self.gestArt.modificacionArt(codBarra,artAMod[0:5])
+                    print("\nSe salió del menu de alta de artículos.")
+                if seleccion == 4:
+                    nuevoPrecio = self.val.precio('Nuevo Precio',0.1,999999.99)
+                    artAMod[3] = nuevoPrecio
+                    self.gestArt.modificacionArt(codBarra,artAMod[0:5])
+                    print("\nSe salió del menu de alta de artículos.")
+                if seleccion == 5:
+                    nuevaCant = self.val.numero('número de existencias',1,999)
+                    artAMod[4] = nuevaCant
+                    self.gestArt.modificacionArt(codBarra,artAMod[0:5])
+                    print("\nSe salió del menu de alta de artículos.")
+                if seleccion == 6:
+                    nuevoCodBarra = self.val.numero('Nuevo Código de Barra',99999999999,999999999999)
+                    nuevoNom = self.val.string30('Nuevo Nombre de artículo')
+                    nuevaCat = self.val.stringSinNum('Nueva Categoría')
+                    nuevoPrecio = self.val.precio('Nuevo Precio',0.1,999999.99)
+                    nuevaCant = self.val.numero('número de existencias',1,999)
+                    articuloModi = [nuevoCodBarra,nuevoNom,nuevaCat,nuevoPrecio,nuevaCant]
+                    self.gestArt.modificacionArt(codBarra,articuloModi)
+                    print("\nSe salió del menu de alta de artículos.")
+            else:
+                print("\nEl código de barra ingresado ya corresponde a un articulo registrado.\nSe salió del menu de alta de artículos.")
+        if seleccion == 4:
+            nuevoCodBarra = self.val.numero('Código de Barra',99999999999,999999999999)
+            cantidadDeArt = self.val.numero('número de existencias a ingresar',1,999)
+            artAIngresar = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)
+            if not type(artAIngresar) == str:
+                self.gestArt.ingresoArt(nuevoCodBarra,cantidadDeArt)
+            print("\nSe salió del menu de alta de artículos.")
+        if seleccion == 5:
+            artDistintos = self.val.numero('número de artículos distintos a ingresar',1,50)
+            listaCodBarra = []
+            listaCantidad = []
+            for cant in range(0,artDistintos):
+                os.system('cls')
+                nuevoCodBarra = self.val.numero('Código de Barra',99999999999,999999999999)
+                cantidadDeArt = self.val.numero('número de existencias correspondiente al codigo de barra que ingresó',1,999)
+                listaCodBarra.append(nuevoCodBarra)
+                listaCantidad.append(cantidadDeArt)
+            self.gestArt.ingresoRemito(listaCodBarra,listaCantidad)
+            print("\nSe salió del menu de alta de artículos.")
+        if seleccion == 6:
+            self.gestArt.listadoSinStock()
+            print("\nSe salió del menu de alta de artículos.")
+        if seleccion == 8:
+            print("\nSe salió del menu de alta de artículos.")
     def menuProveedores(self):
-        seleccion = self.menu.menuNum(self.menuProv,5)
+        seleccion = self.menu.menuNum(self.menuProv,6)
         if seleccion == 1:
             nuevoCuit= self.val.numero('CUIT',9999999999,99999999999)
             proveedorACrear = self.base.hacerConsulta("Proveedores","CUIL_CUIT_Prov",nuevoCuit)
@@ -99,29 +204,34 @@ class GestionComercial (object):
                 seleccion = self.menu.menuNum(printModiProv,8)
                 if seleccion == 1:
                     nuevoCuit = self.val.numero('Nuevo CUIT',9999999999,99999999999)
-                    cuitViejo = proveedorAMod[0]
                     proveedorAMod[0] = nuevoCuit
-                    self.gestProv.modificarProv(cuitViejo,proveedorAMod)
+                    self.gestProv.modificarProv(provCuit,proveedorAMod)
+                    print("\nSe salió del menu de modificación de proveedor.")
                 if seleccion == 2:
                     nuevoNom = self.val.stringSinNum('Nuevo Nombre del Proveedor')
                     proveedorAMod[1] = nuevoNom
-                    self.gestProv.modificarProv(proveedorAMod[0],proveedorAMod)
+                    self.gestProv.modificarProv(provCuit,proveedorAMod)
+                    print("\nSe salió del menu de modificación de proveedor.")
                 if seleccion == 3:
                     nuevaDir = self.val.string30('la nueva dirección del proveedor')
                     proveedorAMod[2] = nuevaDir
-                    self.gestProv.modificarProv(proveedorAMod[0],proveedorAMod)
+                    self.gestProv.modificarProv(provCuit,proveedorAMod)
+                    print("\nSe salió del menu de modificación de proveedor.")
                 if seleccion == 4:
                     nuevoTel = self.val.numero('Nuevo Teléfono',1099999999,11099999999)
                     proveedorAMod[3] = nuevoTel
-                    self.gestProv.modificarProv(proveedorAMod[0],proveedorAMod)
+                    self.gestProv.modificarProv(provCuit,proveedorAMod)
+                    print("\nSe salió del menu de modificación de proveedor.")
                 if seleccion == 5:
                     nuevoEmail = self.val.email()
                     proveedorAMod[4] = nuevoEmail
-                    self.gestProv.modificarProv(proveedorAMod[0],proveedorAMod)
+                    self.gestProv.modificarProv(provCuit,proveedorAMod)
+                    print("\nSe salió del menu de modificación de proveedor.")
                 if seleccion == 6:
                     nuevoEstadoIva = self.val.stringSinNum('Estado de iva')
                     proveedorAMod[5] = nuevoEstadoIva
-                    self.gestProv.modificarProv(proveedorAMod[0],proveedorAMod)
+                    self.gestProv.modificarProv(provCuit,proveedorAMod)
+                    print("\nSe salió del menu de modificación de proveedor.")
                 if seleccion == 7:
                     nuevoCuit = self.val.numero('Nuevo CUIT',9999999999,99999999999)
                     nuevoNom = self.val.stringSinNum('Nuevo Nombre del Proveedor')
@@ -130,7 +240,7 @@ class GestionComercial (object):
                     nuevoEmail = self.val.email()
                     nuevoEstadoIva = self.val.stringSinNum('Estado de iva')
                     nuevoProv = [nuevoCuit,nuevoNom,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
-                    self.gestProv.modificarProv(proveedorAMod[0],nuevoProv)
+                    self.gestProv.modificarProv(provCuit,nuevoProv)
                     print("\nSe salió del menu de modificación de proveedor.")
                 else:
                     print("\nSe salió del menu de modificación de proveedor.")
@@ -197,33 +307,39 @@ class GestionComercial (object):
                 seleccion = self.menu.menuNum(printModiCli,9)
                 if seleccion == 1:
                     nuevoDNI = self.val.numero('Nuevo DNI',1000000,99999999)
-                    dniReg = cliente[0]
                     cliente[0] = nuevoDNI
-                    self.gestCli.modiClientes(dniReg,cliente)
+                    self.gestCli.modiClientes(dniCliente,cliente)
+                    print("\nSe salió del menu de modificación de cliente.")
                 if seleccion == 2:
                     nuevoNom = self.val.stringSinNum('Nuevo Nombre del cliente')
                     cliente[1] = nuevoNom
-                    self.gestCli.modiClientes(dniReg,cliente)
+                    self.gestCli.modiClientes(dniCliente,cliente)
+                    print("\nSe salió del menu de modificación de cliente.")
                 if seleccion == 3:
                     nuevoApe = self.val.stringSinNum('Nuevo Apellido del cliente')
                     cliente[2] = nuevoApe
-                    self.gestCli.modiClientes(dniReg,cliente)
+                    self.gestCli.modiClientes(dniCliente,cliente)
+                    print("\nSe salió del menu de modificación de cliente.")
                 if seleccion == 4:
                     nuevaDir = self.val.string30('la nueva dirección del cliente')
                     cliente[3] = nuevaDir
-                    self.gestCli.modiClientes(dniReg,cliente)
+                    self.gestCli.modiClientes(dniCliente,cliente)
+                    print("\nSe salió del menu de modificación de cliente.")
                 if seleccion == 5:
                     nuevoTel = self.val.numero('Nuevo Teléfono',1099999999,11099999999)
                     cliente[4] = nuevoTel
-                    self.gestCli.modiClientes(dniReg,cliente)
+                    self.gestCli.modiClientes(dniCliente,cliente)
+                    print("\nSe salió del menu de modificación de cliente.")
                 if seleccion == 6:
                     nuevoEmail = self.val.email()
                     cliente[5] = nuevoEmail
-                    self.gestCli.modiClientes(dniReg,cliente)
+                    self.gestCli.modiClientes(dniCliente,cliente)
+                    print("\nSe salió del menu de modificación de cliente.")
                 if seleccion == 7:
                     nuevoEstadoIva = self.val.stringSinNum('Estado de iva')
                     cliente[6] = nuevoEstadoIva
-                    self.gestCli.modiClientes(dniReg,cliente)
+                    self.gestCli.modiClientes(dniCliente,cliente)
+                    print("\nSe salió del menu de modificación de cliente.")
                 if seleccion == 8:
                     nuevoDNI = self.val.numero('Nuevo DNI',1000000,99999999)
                     nuevoNom = self.val.stringSinNum('Nuevo Nombre del cliente')
@@ -234,6 +350,7 @@ class GestionComercial (object):
                     nuevoEstadoIva = self.val.stringSinNum('Estado de iva')
                     nuevoCli = [nuevoDNI,nuevoNom,nuevoApe,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
                     self.gestCli.modiClientes(cliente[0],nuevoCli)
+                    print("\nSe salió del menu de modificación de cliente.")
                 else:
                     os.system('cls')
                     print("\nSe salió del menu de modificación de cliente.")
@@ -253,3 +370,20 @@ class GestionComercial (object):
             print("\nOpción no disponible.")
         else:
             print("\nSe salió del menu general.")
+    def menuLoop(self):
+        validar=""
+        while True:
+            try:
+                while validar!="NO":
+                    self.menuGeneral()
+                    validar = input("\nDesea Realizar algo más? si/no: ").upper()
+                    if validar!="SI" and validar!="NO":
+                        print(f' Por favor ingrese Si o No.')
+                    elif validar=="NO":
+                        print("\nPrograma finalizado.")
+                break
+            except ValueError:
+                print(f'Hubo un error en su ingreso.')
+
+gestionCom = GestionComercial()
+gestionCom.menuLoop()

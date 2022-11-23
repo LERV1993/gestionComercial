@@ -21,7 +21,7 @@ class Validacion(object):
         while True:
             try:
                 while validar == True or len(ingreso) < 1 or len(ingreso) >30:
-                    ingreso = input(f"\nIngrese el {loQueSea}: ").title()
+                    ingreso = input(f"\nIngrese {loQueSea}: ").title()
                     if len(ingreso) < 1 or len(ingreso) >30:
                         os.system('cls')
                         print(f"\nEl {loQueSea} debe tener entre 1 y 30 caracteres.")
@@ -134,3 +134,17 @@ class Validacion(object):
                     print("\nPor favor ingrese valores numéricos")
         ingreso = str(dia) + "-" + str(mes) + "-" + str(año)
         return ingreso 
+    def precio(self,loQueSea,mayorQue,menorQue):
+        ingreso = 0
+        while True:
+            try:
+                while ingreso < mayorQue or ingreso > menorQue:
+                    ingreso = float(input(f"\nIngrese el {loQueSea}: "))
+                    if ingreso < mayorQue or ingreso > menorQue:
+                        os.system('cls')
+                        print(f"\nEl {loQueSea} debe tener un valor entre {mayorQue} y {menorQue}.")
+                break
+            except ValueError:
+                os.system('cls')
+                print("\nPro favor ingrese valores numéricos")
+        return (f'{ingreso:.2f}')  

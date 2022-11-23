@@ -65,15 +65,12 @@ class GestionArticulos(object):
         ingreso = self.base.hacerConsulta('Articulos','codigoBarra',codBarra)
         if  not type(ingreso) == str:
             self.base.ingresarArticulos(codBarra,cantidad)
-            print('\nIngreso exitoso.')
+            print(f'\nCodigo de barra: {codBarra} Ingreso exitoso.')
         else:
-            print("\nEl código de barra ingresado no se encuentra registrado, genere el alta del articulo y vuelva a intentarlo.")
+            print(f"\nERROR: El código de barra: {codBarra} ingresado no se encuentra registrado, genere el ingreso a través de alta.")
     def ingresoRemito(self,listaArticulos,listaCantidades):
         for ind in range(0,len(listaArticulos)):
             self.ingresoArt(listaArticulos[ind],listaCantidades[ind])
-        #---------------------EJEMPLOS --------------------------------
-        #articulos = [125547888888,825547877778,725547866666]
-        #cantidades = [10,15,20]
     def listadoArt(self):
         listaRegistros = []
         registros= self.base.cantidadDeRegistros('Articulos')
@@ -98,6 +95,7 @@ class GestionArticulos(object):
             for registro in registros:
                 listaRegistros.append(list(registro))
             tablaArticulos = """\
+                               ---------------------- LISTADO DE FALTANTES DE STOCK ---------------------- 
                             ---------------------- Se muestra un límite de 100 registros ----------------------                           
     +-----------------------------------------------------------------------------------------------------------------------------------+
     |   CODIGO DE BARRA               NOMBRE                  CATEGORIA        PRECIO        CANTIDAD            CUIT-PROVEEDOR         |   
