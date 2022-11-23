@@ -53,3 +53,84 @@ class Validacion(object):
                 os.system('cls')
                 print("\nOcurrió un error.")
         return ingreso
+    def email(self):
+        ingreso =""
+        while True:
+            try:
+                while len(ingreso) < 1 or len(ingreso) >40:
+                    ingreso = input(f"\nIngrese el Email del cliente: ")
+                    if len(ingreso) < 1 or len(ingreso) >40:
+                        os.system('cls')
+                        print(f"\nEl email debe tener entre 1 y 40 caracteres.")
+                break
+            except ValueError:
+                os.system('cls')
+                print("\nOcurrió un error.")
+        return ingreso
+    def fecha(self):
+        ingreso = ""
+        dia = 0
+        mes = 0
+        año = 0
+        meses31 = [1,3,5,8,10,12]
+        meses30 = [4,6,7,9,11]
+        while True:
+            try:
+                while año < 2022 or año > 2050:
+                    año = int(input(f"\nIngrese el año: "))
+                    if año < 2022 or año > 2050:
+                        os.system('cls')
+                        print(f"\nEl año debe tener un valor entre 2022 y 2050.")
+                break
+            except ValueError:
+                os.system('cls')
+                print("\nPor favor ingrese valores numéricos")
+        while True:
+            try:
+                while mes < 1 or mes > 12:
+                    mes = int(input(f"\nIngrese el mes: "))
+                    if mes < 1 or mes > 12:
+                        os.system('cls')
+                        print(f"\nEl mes debe tener un valor entre 1 y 12.")
+                break
+            except ValueError:
+                os.system('cls')
+                print("\nPor favor ingrese valores numéricos")
+        if mes in meses30:
+            while True:
+                try:
+                    while dia < 1 or dia > 30:
+                        dia = int(input(f"\nIngrese el día: "))
+                        if dia < 1 or dia > 30:
+                            os.system('cls')
+                            print(f"\nEl dia debe tener un valor entre 1 y 30.")
+                    break
+                except ValueError:
+                    os.system('cls')
+                    print("\nPor favor ingrese valores numéricos")
+        elif mes in meses31:
+            while True:
+                try:
+                    while dia < 1 or dia > 31:
+                        dia = int(input(f"\nIngrese el día: "))
+                        if dia < 1 or dia > 31:
+                            os.system('cls')
+                            print(f"\nEl dia debe tener un valor entre 1 y 31.")
+                    break
+                except ValueError:
+                    os.system('cls')
+                    print("\nPor favor ingrese valores numéricos")
+        else:
+            while True:
+                try:
+                    while dia < 1 or dia > 28:
+                        dia = int(input(f"\nIngrese el día: "))
+                        if dia < 1 or dia > 28:
+                            os.system('cls')
+                            print(f"\nEl dia debe tener un valor entre 1 y 28.")
+                    break
+                except ValueError:
+                    os.system('cls')
+                    print("\nPor favor ingrese valores numéricos")
+        ingreso = str(dia) + "-" + str(mes) + "-" + str(año)
+        return ingreso 

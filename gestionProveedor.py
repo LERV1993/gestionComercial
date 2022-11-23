@@ -11,10 +11,10 @@ class GestionProveedor(object):
     def __init__(self):
         self.base = BaseDeDatos()
         self.base.inicializacionBase()
-   """
+        self.menu = opcMenu()
     def altaProv(self,Prov,proveedor):
         IngresoProveedor=self.base.hacerConsulta('Proveedores','CUIL_CUIT_Prov',Prov)
-        if not type(IngresoProveedor)==str:
+        if type(IngresoProveedor)==str:
             print1 = (f'''Se va a generar el alta del proveedor:
                     CUIL / CUIT PROV.   : {proveedor[0]}
                     Nombre de Proveedor : {proveedor[1]}
@@ -23,7 +23,7 @@ class GestionProveedor(object):
                     Mail de Proveedor   : {proveedor[4]}
                     Estado IVA Proveedor: {proveedor[5]}
                     ''')
-            if menu.menuSiNo(print1):
+            if self.menu.menuSiNo(print1):
                 os.system('cls')
                 self.base.altaProveedor(proveedor)
                 print('\nRegistro exitoso.\n')
@@ -31,73 +31,60 @@ class GestionProveedor(object):
                 print('\nSe canceló la operación.\n')
         else:
             print("Proveedor ya registrado en Base de Datos...\n")
-
-
-    def bajaProv(self,Prov,proveedor):
+    def bajaProv(self,Prov):
         ingresoProveedor=self.base.hacerConsulta('Proveedores','CUIL_CUIT_Prov',Prov)
         if not type(ingresoProveedor)==str:
             print1 = (f'''\nSe va a generar la baja del proveedor:\n
-                    CUIL / CUIT PROV.   : {proveedor[0]}
-                    Nombre de Proveedor : {proveedor[1]}
-                    Dirección Proveedor : {proveedor[2]}
-                    Teléfono Proveedor  : {proveedor[3]}
-                    Mail de Proveedor   : {proveedor[4]}
-                    Estado IVA Proveedor: {proveedor[5]}
+                    CUIL / CUIT PROV.   : {ingresoProveedor[0]}
+                    Nombre de Proveedor : {ingresoProveedor[1]}
+                    Dirección Proveedor : {ingresoProveedor[2]}
+                    Teléfono Proveedor  : {ingresoProveedor[3]}
+                    Mail de Proveedor   : {ingresoProveedor[4]}
+                    Estado IVA Proveedor: {ingresoProveedor[5]}
                     ''')
-            if menu.menuSiNo(print1):
+            if self.menu.menuSiNo(print1):
                 os.system('cls')
                 self.base.borrarRegistro('Proveedores','CUIL_CUIT_Prov',Prov)
                 print('\nSe ha dado de baja a Proveedor.\n')
             else:
                 print('\nSe canceló la operación.\n')
         else:
-            print("Proveedor no registrado en Base de Datos...")
-
-
-
+            print("Proveedor no registrado en Base de Datos.")
     def modificarProv(self,Prov,modprov):
-        modprov=self.base.hacerConsulta('Proveedores','CUIL_CUIT_Prov',Prov)
-        if not type(modprov)==str:
+        proveedorAMod=self.base.hacerConsulta('Proveedores','CUIL_CUIT_Prov',Prov)
+        if not type(proveedorAMod)==str:
             print1 = (f'''\nSe va a Modificar los datos de proveedor:\n
-                    CUIL / CUIT PROV.   : {modificoprov[0]}
-                    Nombre de Proveedor : {modificoprov[1]}
-                    Dirección Proveedor : {modificoprov[2]}
-                    Teléfono Proveedor  : {modificoprov[3]}
-                    Mail de Proveedor   : {modificoprov[4]}
-                    Estado IVA Proveedor: {modificoprov[5]}
+                    CUIL / CUIT PROV.   : {modprov[0]}
+                    Nombre de Proveedor : {modprov[1]}
+                    Dirección Proveedor : {modprov[2]}
+                    Teléfono Proveedor  : {modprov[3]}
+                    Mail de Proveedor   : {modprov[4]}
+                    Estado IVA Proveedor: {modprov[5]}
                     ''')
-            if menu.menuSiNo(print1):
+            if self.menu.menuSiNo(print1):
                 os.system('cls')
-                self.base.modificarProveedor(Prov,modificoprov)
+                self.base.modificarProveedor(Prov,modprov)
                 print('\nSe ha modificado los datos exitosamente.\n')
             else:
                 print('\nSe canceló la operación.\n')
         else:
-            print("CUIL/CUIT no registrado en Tabla Proveedores...")
-
-
+            print("CUIL/CUIT no registrado en Tabla Proveedores.")
     def pedidoProveedor(self,pedidoprov):
-        print1 = (f'''\nSolicitud por OP. de...:\n
-                    Número de Orden     : {pedidoprov[0]}
-                    Código de Barra     : {pedidoprov[1]}
-                    Cantidad Artículo   : {pedidoprov[2]}
-                    Nombre de Artículo  : {pedidoprov[3]}
-                    Fecha de Solicitud  : {pedidoprov[4]}
-                    CUIL/CUIT Proveedor : {pedidoprov[5]}
-                    Estado respecto IVA : {pedidoprov[6]}
+        print1 = (f'''\nSolicitud por OP. de:\n
+                    Código de Barra     : {pedidoprov[0]}
+                    Cantidad Artículo   : {pedidoprov[1]}
+                    Nombre de Artículo  : {pedidoprov[2]}
+                    Fecha de Solicitud  : {pedidoprov[3]}
+                    CUIL/CUIT Proveedor : {pedidoprov[4]}
+                    Estado de solicitud : {pedidoprov[5]}
                     ''')
-        if menu.menuSiNo(print1):
+        if self.menu.menuSiNo(print1):
             os.system('cls')
-            self.base.reposicionTabla(pedidoprov)
+            self.base.registrarReposicion(pedidoprov)
             print('\nSolicitud de Productos exitosa.\n')
         else:
             print('\nSe canceló la operación.\n')
-    
-"""
-
-    def devolucionProveedor(self,Prov):
-        devProv=self.base.hacerConsulta('Devoluciones','codigoBarra1',Prov)
-        if not type(devProv)==str:
+    def devolucionProveedor(self,devolucionProv):
             print1 = (f'''\nDevolución a proveedor de...:\n
                     Código de devolución: {devolucionProv[0]}
                     Código de Barra     : {devolucionProv[1]}
@@ -106,25 +93,10 @@ class GestionProveedor(object):
                     Fecha de devolución : {devolucionProv[4]}
                     Motivo de devolución: {devolucionProv[5]}
                     ''')
-            if menu.menuSiNo(print1):
+            if self.menu.menuSiNo(print1):
                 os.system('cls')
                 self.base.devolucionesTabla(devolucionProv)
+                self.base.descuentaArticulos(devolucionProv[1],devolucionProv[2])
                 print('\nRegistro de devolución exitosa.\n')
             else:
                 print('\nSe canceló la operación.\n')
-        else:
-            print("Devolución ya generada...")
-
-
-
-GestProv = GestionProveedor()
-
-devolucionProv=[1,125547888888,4,30234568879,"24/05/21",'MEMORIA defectuosa/rota']
-#pedidoprov=[1,125547888888,4,'MEMORIA RAM ASTRO 8GB',"24/05/21",30234568879,'inscripto']
-#proveedor=[125547888888,4,'MEMORIA RAM ASTRO 8GB',"24/05/21",30234568879,'inscripto']
-#modificoprov=[30225474136,'Percant','Brasil 1',1169874521,'juan.perez@percant.com.ar','inscripto']
-#GestProv.altaProv(30225474136,proveedor)
-#GestProv.BajaProv(30225474136,proveedor)
-#GestProv.modificarProv(30225474136,modificoprov)
-#GestProv.pedidoProveedor(pedidoprov)
-GestProv.devolucionProveedor(125547888888)

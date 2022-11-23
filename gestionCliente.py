@@ -10,7 +10,7 @@ class GestionCliente(object):
     def altaCliente(self,dni_cliente,cliente):
         clienteporagregar = self.base.hacerConsulta("Clientes","DNI_Cli",dni_cliente)  
         if type(clienteporagregar) == str:
-            print1=(f'''Se generara el alta del cliente: 
+            print1=(f'''Se generará el alta del cliente: 
                   DNI de cliente: {cliente[0]}
                   Nombre de cliente: {cliente[1]}
                   Apellido cliente: {cliente[2]}
@@ -65,11 +65,5 @@ class GestionCliente(object):
                 print("\nModificación de cliente exitosa.")
             else:
                 print("\nSe canceló la operación.")
-        else:
-            print("\nEl DNI no corresponde a un cliente registrado.")
-    def traerCliente(self,dnicliente):
-        cliente = self.base.hacerConsulta("Clientes","DNI_Cli",dnicliente)
-        if not type(cliente) == str:
-            return cliente
         else:
             print("\nEl DNI no corresponde a un cliente registrado.")

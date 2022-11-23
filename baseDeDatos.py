@@ -25,7 +25,7 @@ class BaseDeDatos(object):
         )
         self.cursor = self.bd.cursor()
     def clientesTabla(self):
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS Clientes(DNI_Cli INT PRIMARY KEY,NombreCli VARCHAR (30),ApellidoCli VARCHAR(30),direccionCli VARCHAR(30),telefonoCli BIGINT,mailCli VARCHAR(30),estadoIvaCli VARCHAR(30))")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS Clientes(DNI_Cli INT PRIMARY KEY,NombreCli VARCHAR (30),ApellidoCli VARCHAR(30),direccionCli VARCHAR(30),telefonoCli BIGINT,mailCli VARCHAR(40),estadoIvaCli VARCHAR(30))")
     def proveedoresTabla(self):
         self.cursor.execute("CREATE TABLE IF NOT EXISTS Proveedores(CUIL_CUIT_Prov BIGINT PRIMARY KEY,Nombre_Prov VARCHAR(30),Direccion_Prov VARCHAR(30),Telefono_Prov BIGINT,Mail_Prov VARCHAR(30),estadoIvaProv VARCHAR(30))")
     def articulosTabla(self):
@@ -35,7 +35,7 @@ class BaseDeDatos(object):
     def ventasTabla(self):
          self.cursor.execute("CREATE TABLE IF NOT EXISTS Ventas(CodigoVent INT AUTO_INCREMENT PRIMARY KEY,fechaVenta DATE,Factura BIGINT,codigoBarraVent BIGINT,nombreArticuloVent VARCHAR(30),CantidadVent INT,DNI_Cli_Vent INT,precioArt DECIMAL(8,2),NombreCli VARCHAR(30),ApellidoCli VARCHAR(30),estadoIvaCli VARCHAR(30),CONSTRAINT `FK_CodBarraVent` FOREIGN KEY (`codigoBarraVent`) REFERENCES `articulos` (`codigoBarra`) ON UPDATE CASCADE ON DELETE RESTRICT,CONSTRAINT `FK_DNI_Cli` FOREIGN KEY (`DNI_Cli_Vent`) REFERENCES `Clientes` (`DNI_Cli`) ON UPDATE CASCADE ON DELETE RESTRICT)")
     def reposicionTabla(self):
-         self.cursor.execute("CREATE TABLE IF NOT EXISTS ordenesDeArticulos(nroOrden INT AUTO_INCREMENT PRIMARY KEY,codigoBarra BIGINT,cantidad INT,nombreArticulo VARCHAR(30),fechaSolicitud DATE,CUIL_CUIT_Prov BIGINT,estado VARCHAR(30), CONSTRAINT `FK_CodBarraArt` FOREIGN KEY (`codigoBarra`) REFERENCES `articulos` (`codigoBarra`) ON UPDATE CASCADE ON DELETE RESTRICT, CONSTRAINT `FK_Cuil_Cuit_Prov` FOREIGN KEY (`CUIL_CUIT_Prov`) REFERENCES `proveedores` (`CUIL_CUIT_Prov`) ON UPDATE CASCADE ON DELETE RESTRICT)")
+         self.cursor.execute("CREATE TABLE IF NOT EXISTS ordenesDeArticulos(nroOrden INT AUTO_INCREMENT PRIMARY KEY,codigoBarra BIGINT,cantidad INT,nombreArticulo VARCHAR(30),fechaSolicitud DATE,CUIL_CUIT_Prov BIGINT, CONSTRAINT `FK_CodBarraArt` FOREIGN KEY (`codigoBarra`) REFERENCES `articulos` (`codigoBarra`) ON UPDATE CASCADE ON DELETE RESTRICT, CONSTRAINT `FK_Cuil_Cuit_Prov` FOREIGN KEY (`CUIL_CUIT_Prov`) REFERENCES `proveedores` (`CUIL_CUIT_Prov`) ON UPDATE CASCADE ON DELETE RESTRICT)")
     def agregarValores(self):
         sql = "INSERT INTO Clientes (DNI_Cli, NombreCli, ApellidoCli, direccionCli, telefonoCli, mailCli, estadoIvaCli) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         val = [
@@ -110,6 +110,10 @@ class BaseDeDatos(object):
             registro.append(campo)
         cantidad = registro[4] - cantADescontar
         self.cursor.execute(f"UPDATE Articulos SET cantidadArt = '{cantidad}' WHERE codigoBarra = {codigoArt}")
+        self.bd.commit()
+    def registrarReposicion(self,nuevaReposicion):
+        sql = "INSERT INTO Devoluciones (codigoBarra,cantidad,nombreArticulo,fechaSolicitud,CUIL_CUIT_Prov,estado) VALUES (%s, %s, %s, %s, %s, %s)"
+        self.cursor.execute(sql,nuevaReposicion)
         self.bd.commit()
     def borrarRegistro(self,tabla,campo,PK):
         sql = f"DELETE FROM {tabla} WHERE {campo} = '{PK}'"
