@@ -109,3 +109,9 @@ class GestionArticulos(object):
             print(tablaArticulos)
         else:
             print("\nPor el momento no se registran faltantes de stock.")
+    def descontarArticulos(self,codBarra,cantidad):
+        artADesc = self.base.hacerConsulta('Articulos','codigoBarra',codBarra)
+        if not type(artADesc) == str:
+            self.base.descuentaArticulos(codBarra,cantidad)
+        else:
+            print("\nEl código de barra ingresado no corresponde a un artículo registrado.")

@@ -11,46 +11,46 @@ class GestionComercial (object):
             -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             --                      "Gestion interna"                      --
             -----------------------------------------------------------------
-            --  1: Menu Proveedores --
-            --  2: Menu Clientes --
-            --  3: Menu Articulos --
-            --  4: Menu Ventas --
-            --  5: Salir.--
+            --  1: Menu Proveedores                                        --
+            --  2: Menu Clientes                                           --
+            --  3: Menu Articulos                                          --
+            --  4: Menu Ventas                                             --
+            --  5: Salir                                                   --
             -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             ''')
         self.menuProv = (f'''
             -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             --                    "Menu Proveedores"                       --
             -----------------------------------------------------------------
-            --  1: Alta Proveedor --
-            --  2: Baja Proveedor --
-            --  3: Modificacion Proveedor --
-            --  4: Pedido Proveedor  --
-            --  5: Devolución Proveedor  --
-            --  6: Salir.--
+            --  1: Alta Proveedor                                          --
+            --  2: Baja Proveedor                                          --
+            --  3: Modificacion Proveedor                                  --
+            --  4: Pedido Proveedor                                        --
+            --  5: Devolución Proveedor                                    --
+            --  6: Salir                                                   --
             -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             ''')
         self.menuCli = (f'''
         -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
         --                    "Menu Clientes"                          --
         -----------------------------------------------------------------
-        --  1: Alta Clientes --
-        --  2: Baja Clientes --
-        --  3: Modificacion Clientes --
-        --  4: Salir.--
+        --  1: Alta Clientes                                           --
+        --  2: Baja Clientes                                           --
+        --  3: Modificacion Clientes                                   --
+        --  4: Salir                                                   --
         -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
         ''')
         self.menuArt = (f'''
         -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
         --                     "Menu Articulos"                        --
         -----------------------------------------------------------------
-        --  1: Alta Articulos --
-        --  2: Baja Articulos --
-        --  3: Modificacion Articulos --
-        --  4: Ingreso de Articulo --
-        --  5: Ingreso de remito.--
-        --  6: Listado de articulos --
-        --  7: Salir. --
+        --  1: Alta Articulos                                          --
+        --  2: Baja Articulos                                          --
+        --  3: Modificacion Articulos                                  --
+        --  4: Ingreso de Articulo                                     --
+        --  5: Ingreso de remito                                       --
+        --  6: Listado de articulos                                    --
+        --  7: Salir                                                   --
         -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
         ''')
         self.menu = opcMenu()
