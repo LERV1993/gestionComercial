@@ -49,7 +49,7 @@ class GestionComercial (object):
             --  3: Modificacion Articulos                                  --
             --  4: Ingreso de Articulo                                     --
             --  5: Ingreso de remito                                       --
-            --  6: Listado de articulos                                    --
+            --  6: Listado de articulos Faltantes                          --
             --  7: Salir                                                   --
             -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             ''')
