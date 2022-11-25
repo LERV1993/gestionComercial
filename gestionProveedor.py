@@ -84,18 +84,17 @@ class GestionProveedor(object):
         else:
             print('\nSe canceló la operación.\n')
     def devolucionProveedor(self,devolucionProv):
-            print1 = (f'''\nDevolución a proveedor de...:\n
-                    Código de devolución: {devolucionProv[0]}
-                    Código de Barra     : {devolucionProv[1]}
-                    Cantidad Artículo   : {devolucionProv[2]}
-                    CUIL/CUIT Proveedor : {devolucionProv[3]}
+            print1 = (f'''\nVerifique la devolución a generar:\n
+                    Código de Barra     : {devolucionProv[0]}
+                    Cantidad Artículo   : {devolucionProv[1]}
+                    CUIL/CUIT Proveedor : {devolucionProv[2]}
+                    Motivo de devolución : {devolucionProv[3]}
                     Fecha de devolución : {devolucionProv[4]}
-                    Motivo de devolución: {devolucionProv[5]}
                     ''')
             if self.menu.menuSiNo(print1):
                 os.system('cls')
-                self.base.devolucionesTabla(devolucionProv)
-                self.base.descuentaArticulos(devolucionProv[1],devolucionProv[2])
+                self.base.registraDevolucion(devolucionProv)
+                self.base.descuentaArticulos(devolucionProv[0],devolucionProv[1])
                 print('\nRegistro de devolución exitosa.\n')
             else:
                 print('\nSe canceló la operación.\n')

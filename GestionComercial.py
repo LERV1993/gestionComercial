@@ -278,14 +278,17 @@ class GestionComercial (object):
             else:
                 print("\nEl articulo a solicitar no esta registrado en la base de datos. Genere el alta primero.")
         if seleccion == 5:
-            devolucionCodBarra = self.val.numero('Código de barra',99999999999,999999999999)
-            devolucionCantidad = self.val.numero('Cantidad',0,1000)
-            devolucionCuit= self.val.numero('CUIT',9999999999,99999999999)
-            devolucionNombre = self.val.stringSinNum('Motivo')
-            devolucionFecha = self.val.fecha()
-            nuevaDevolucion = [devolucionCodBarra,devolucionCantidad,devolucionCuit,devolucionNombre,devolucionFecha]
-            self.gestProv.devolucionProveedor(nuevaDevolucion)
-            print("\nSe salió del menu de proveedores.")
+            devolucionCodBarra = self.val.numero('Código de barra del artículo a devolver',99999999999,999999999999)
+            existeArt = self.base.hacerConsulta('Articulos','codigoBarra',devolucionCodBarra)
+            if not type(existeArt) == str:
+                devolucionCantidad = self.val.numero('Cantidad del artículo a devolver',1,1000)
+                devolucionMotivo = self.val.stringSinNum('Motivo de la devolución')
+                devolucionFecha = self.val.fecha()
+                nuevaDevolucion = [devolucionCodBarra,devolucionCantidad,existeArt[5],devolucionMotivo,devolucionFecha]
+                self.gestProv.devolucionProveedor(nuevaDevolucion)
+                print("\nSe salió del menu de proveedores.")
+            else:
+                print("\nEl artículo que se intenta devolver no está registrado en la base de datos.")
         else:
             print("\nSe salió del menu de proveedores.")
     def menuClientes(self):

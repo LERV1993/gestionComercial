@@ -31,7 +31,7 @@ class BaseDeDatos(object):
     def articulosTabla(self):
         self.cursor.execute("CREATE TABLE IF NOT EXISTS Articulos(codigoBarra BIGINT PRIMARY KEY,nombreArticulo VARCHAR(30),categoriaArt VARCHAR(30),precioArt DECIMAL(8,2),cantidadArt INT,CUIL_CUIT_Prov BIGINT,CONSTRAINT `FK_Cuil_Cuit` FOREIGN KEY (`CUIL_CUIT_Prov`) REFERENCES `proveedores` (`CUIL_CUIT_Prov`) ON UPDATE CASCADE ON DELETE RESTRICT)")
     def devolucionesTabla(self):
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS Devoluciones(codigoDevolucion INT PRIMARY KEY, codigoBarra1 BIGINT,cantidadArt INT,CUIL_CUIT_Prov1 BIGINT,motivoDev VARCHAR(30),fecha DATE, CONSTRAINT `FK2_Cuil_Cuit` FOREIGN KEY (`CUIL_CUIT_Prov1`) REFERENCES `proveedores` (`CUIL_CUIT_Prov`) ON UPDATE CASCADE ON DELETE RESTRICT, CONSTRAINT `FK_Cod_Barra` FOREIGN KEY (`codigoBarra1`) REFERENCES `articulos` (`codigoBarra`) ON UPDATE CASCADE ON DELETE RESTRICT)")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS Devoluciones(codigoDevolucion INT AUTO_INCREMENT PRIMARY KEY, codigoBarra1 BIGINT,cantidadArt INT,CUIL_CUIT_Prov1 BIGINT,motivoDev VARCHAR(30),fecha DATE, CONSTRAINT `FK2_Cuil_Cuit` FOREIGN KEY (`CUIL_CUIT_Prov1`) REFERENCES `proveedores` (`CUIL_CUIT_Prov`) ON UPDATE CASCADE ON DELETE RESTRICT, CONSTRAINT `FK_Cod_Barra` FOREIGN KEY (`codigoBarra1`) REFERENCES `articulos` (`codigoBarra`) ON UPDATE CASCADE ON DELETE RESTRICT)")
     def ventasTabla(self):
          self.cursor.execute("CREATE TABLE IF NOT EXISTS Ventas(CodigoVent INT AUTO_INCREMENT PRIMARY KEY,fechaVenta DATE,Factura BIGINT,codigoBarraVent BIGINT,nombreArticuloVent VARCHAR(30),CantidadVent INT,DNI_Cli_Vent INT,precioArt DECIMAL(8,2),NombreCli VARCHAR(30),ApellidoCli VARCHAR(30),estadoIvaCli VARCHAR(30),CONSTRAINT `FK_CodBarraVent` FOREIGN KEY (`codigoBarraVent`) REFERENCES `articulos` (`codigoBarra`) ON UPDATE CASCADE ON DELETE RESTRICT,CONSTRAINT `FK_DNI_Cli` FOREIGN KEY (`DNI_Cli_Vent`) REFERENCES `Clientes` (`DNI_Cli`) ON UPDATE CASCADE ON DELETE RESTRICT)")
     def reposicionTabla(self):
@@ -99,7 +99,7 @@ class BaseDeDatos(object):
         self.cursor.execute(sql,nuevaVenta)
         self.bd.commit()
     def registraDevolucion(self,nuevaDevolucion):
-        sql = "INSERT INTO Devoluciones (codigoDevolucion, codigoBarra,cantidadArt,motivoDev,fecha) VALUES (%s, %s, %s, %s, %s)"
+        sql = "INSERT INTO Devoluciones (codigoBarra1,cantidadArt,CUIL_CUIT_Prov1,motivoDev,fecha) VALUES (%s, %s, %s, %s, %s)"
         self.cursor.execute(sql,nuevaDevolucion)
         self.bd.commit()
     def descuentaArticulos(self,codigoArt,cantADescontar):
