@@ -163,6 +163,10 @@ class BaseDeDatos(object):
         self.cursor.execute(f"SELECT * FROM {tabla} LIMIT 100")
         registros = self.cursor.fetchall()
         return(registros)
+    def crearConsumidorFinal(self):
+        sql = "INSERT INTO Clientes (DNI_Cli, NombreCli, ApellidoCli, direccionCli, telefonoCli, mailCli, estadoIvaCli) VALUES (0,'Consumidor','Final','NULL',0,'NULL','Final')"
+        self.cursor.execute(sql)
+        self.bd.commit()
     def inicializacionBase(self):
         self.crearBase()
         self.conectarBaseDeDatos()
@@ -172,3 +176,8 @@ class BaseDeDatos(object):
         self.ventasTabla()
         self.devolucionesTabla()
         self.reposicionTabla()
+        agregarConsFinal = self.hacerConsulta('Clientes','DNI_Cli',0)
+        if type(agregarConsFinal) == str:
+            self.crearConsumidorFinal()
+        else:
+            return('Consumidor final ok')
