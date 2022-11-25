@@ -31,28 +31,28 @@ class GestionComercial (object):
             -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             ''')
         self.menuCli = (f'''
-        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        --                    "Menu Clientes"                          --
-        -----------------------------------------------------------------
-        --  1: Alta Clientes                                           --
-        --  2: Baja Clientes                                           --
-        --  3: Modificacion Clientes                                   --
-        --  4: Salir                                                   --
-        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        ''')
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            --                    "Menu Clientes"                          --
+            -----------------------------------------------------------------
+            --  1: Alta Clientes                                           --
+            --  2: Baja Clientes                                           --
+            --  3: Modificacion Clientes                                   --
+            --  4: Salir                                                   --
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            ''')
         self.menuArt = (f'''
-        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        --                     "Menu Articulos"                        --
-        -----------------------------------------------------------------
-        --  1: Alta Articulos                                          --
-        --  2: Baja Articulos                                          --
-        --  3: Modificacion Articulos                                  --
-        --  4: Ingreso de Articulo                                     --
-        --  5: Ingreso de remito                                       --
-        --  6: Listado de articulos                                    --
-        --  7: Salir                                                   --
-        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        ''')
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            --                     "Menu Articulos"                        --
+            -----------------------------------------------------------------
+            --  1: Alta Articulos                                          --
+            --  2: Baja Articulos                                          --
+            --  3: Modificacion Articulos                                  --
+            --  4: Ingreso de Articulo                                     --
+            --  5: Ingreso de remito                                       --
+            --  6: Listado de articulos                                    --
+            --  7: Salir                                                   --
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            ''')
         self.estadoIVa = (f'''
             -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             --                      "Estado de IVA"                        --
@@ -98,18 +98,18 @@ class GestionComercial (object):
                 print("\nSe salió del menu de alta de artículos.")
         if seleccion == 3:
             printModiArt = ('''
-            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-            --                    "Modificación de Artículo"               --
-            -----------------------------------------------------------------
-            --  1: Modificar Codigo de Barra                               --
-            --  2: Modificar Nombre                                        --
-            --  3: Modificar Categoría                                     --
-            --  4: Modificar precio                                        --
-            --  5: Modificar Cantidad                                      --
-            --  6: Modificar Todo                                          --
-            --  7: Salir                                                   --
-            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-            ''')
+                -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+                --                    "Modificación de Artículo"               --
+                -----------------------------------------------------------------
+                --  1: Modificar Codigo de Barra                               --
+                --  2: Modificar Nombre                                        --
+                --  3: Modificar Categoría                                     --
+                --  4: Modificar precio                                        --
+                --  5: Modificar Cantidad                                      --
+                --  6: Modificar Todo                                          --
+                --  7: Salir                                                   --
+                -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+                ''')
             codBarra = self.val.numero('Código de Barra',99999999999,999999999999)
             artAMod = self.base.hacerConsulta("Articulos","codigoBarra",codBarra)
             if not type(artAMod) == str:
@@ -197,23 +197,22 @@ class GestionComercial (object):
                 print("""\nEl CUIT corresponde a un proveedor ya registrado.\nSe salió del menu de proveedores.""")
         if seleccion == 2:
             nuevoCuit= self.val.numero('CUIT',9999999999,99999999999)
-            
             self.gestProv.bajaProv(nuevoCuit)
         if seleccion == 3:
             printModiProv = ('''
-            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-            --                    "Modificación de Cliente"                --
-            -----------------------------------------------------------------
-            --  1: Modificar CUIT                                          --
-            --  2: Modificar Nombre                                        --
-            --  3: Modificar Dirección                                     --
-            --  4: Modificar Teléfono                                      --
-            --  5: Modificar Email                                         --
-            --  6: Modificar Estado de IVA                                 --
-            --  7: Modificar Todo                                          --
-            --  8: Salir                                                   --
-            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-            ''')
+                -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+                --                    "Modificación de Cliente"                --
+                -----------------------------------------------------------------
+                --  1: Modificar CUIT                                          --
+                --  2: Modificar Nombre                                        --
+                --  3: Modificar Dirección                                     --
+                --  4: Modificar Teléfono                                      --
+                --  5: Modificar Email                                         --
+                --  6: Modificar Estado de IVA                                 --
+                --  7: Modificar Todo                                          --
+                --  8: Salir                                                   --
+                -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+                ''')
             provCuit= self.val.numero('CUIT',9999999999,99999999999)
             proveedorAMod = self.base.hacerConsulta("Proveedores","CUIL_CUIT_Prov",provCuit)
             if not type(proveedorAMod) == str:  
@@ -316,20 +315,20 @@ class GestionComercial (object):
             self.gestCli.borrarCliente(dniCliente)
         if seleccion == 3:
             printModiCli=(f'''
-        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        --                    "Modificación de Cliente"                --
-        -----------------------------------------------------------------
-        --  1: Modificar DNI                                           --
-        --  2: Modificar Nombre                                        --
-        --  3: Modificar Apellido                                      --
-        --  4: Modificar Dirección                                     --
-        --  5: Modificar Teléfono                                      --
-        --  6: Modificar Email                                         --
-        --  7: Modificar Estado de IVA                                 --
-        --  8: Modificar Todo                                          --
-        --  9: Salir                                                   --
-        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        ''')
+                -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+                --                    "Modificación de Cliente"                --
+                -----------------------------------------------------------------
+                --  1: Modificar DNI                                           --
+                --  2: Modificar Nombre                                        --
+                --  3: Modificar Apellido                                      --
+                --  4: Modificar Dirección                                     --
+                --  5: Modificar Teléfono                                      --
+                --  6: Modificar Email                                         --
+                --  7: Modificar Estado de IVA                                 --
+                --  8: Modificar Todo                                          --
+                --  9: Salir                                                   --
+                -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+                ''')
             dniCliente = self.val.numero('DNI',1000000,99999999)
             cliente = self.base.hacerConsulta("Clientes","DNI_Cli",dniCliente)
             if not type(cliente) == str:
