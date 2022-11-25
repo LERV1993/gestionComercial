@@ -15,7 +15,7 @@ class opcMenu (object):
                 break
             except ValueError:
                 os.system('cls')                                                                                                                                         
-                print('\nPor favor ingrese un valor numerico.')
+                print('\nPor favor ingrese un valor numérico.')
         return seleccion
     def menuSiNo(self,menuPrint):
         os.system('cls') 
@@ -36,3 +36,19 @@ class opcMenu (object):
             return True
         else:
             return False
+    def menuSel(self,menuPrint,cantidadDeOpciones):
+        os.system('cls') 
+        seleccion = 0
+        while True:                                                        
+            try:
+                while seleccion < 1 or seleccion > cantidadDeOpciones: 
+                    print(menuPrint)                         
+                    seleccion=int(input(f'\nIngrese en N° de opción a registrar:  ')) 
+                    if seleccion < 1 or seleccion > cantidadDeOpciones:
+                        os.system('cls')                                               
+                        print(f'\nPor favor ingrese un valor entre 1 y {cantidadDeOpciones}: ')
+                break
+            except ValueError:
+                os.system('cls')                                                                                                                                         
+                print('\nPor favor ingrese un valor numérico.')
+        return seleccion

@@ -76,7 +76,6 @@ class GestionProveedor(object):
                     Nombre de Artículo  : {pedidoprov[2]}
                     Fecha de Solicitud  : {pedidoprov[3]}
                     CUIL/CUIT Proveedor : {pedidoprov[4]}
-                    Estado de solicitud : {pedidoprov[5]}
                     ''')
         if self.menu.menuSiNo(print1):
             os.system('cls')

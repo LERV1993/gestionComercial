@@ -132,7 +132,7 @@ class Validacion(object):
                 except ValueError:
                     os.system('cls')
                     print("\nPor favor ingrese valores numéricos")
-        ingreso = str(dia) + "-" + str(mes) + "-" + str(año)
+        ingreso = str(año) + "-" + str(mes) + "-" + str(dia)
         return ingreso 
     def precio(self,loQueSea,mayorQue,menorQue):
         ingreso = 0

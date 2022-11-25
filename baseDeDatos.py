@@ -112,7 +112,7 @@ class BaseDeDatos(object):
         self.cursor.execute(f"UPDATE Articulos SET cantidadArt = '{cantidad}' WHERE codigoBarra = {codigoArt}")
         self.bd.commit()
     def registrarReposicion(self,nuevaReposicion):
-        sql = "INSERT INTO Devoluciones (codigoBarra,cantidad,nombreArticulo,fechaSolicitud,CUIL_CUIT_Prov,estado) VALUES (%s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO ordenesdearticulos (codigoBarra,cantidad,nombreArticulo,fechaSolicitud,CUIL_CUIT_Prov) VALUES (%s, %s, %s, %s, %s)"
         self.cursor.execute(sql,nuevaReposicion)
         self.bd.commit()
     def borrarRegistro(self,tabla,campo,PK):
