@@ -173,10 +173,10 @@ class GestionComercial (object):
                 nuevaDir = self.val.string30('la dirección del proveedor')
                 nuevoTel = self.val.numero('Teléfono',1099999999,11099999999)
                 nuevoEmail = self.val.email()
-                seleccion = self.menu.menuSel(self.estadoIVa,3)
-                if seleccion == 1:
+                seleccion1 = self.menu.menuSel(self.estadoIVa,3)
+                if seleccion1 == 1:
                     nuevoEstadoIva = 'Inscripto'
-                if seleccion == 2:
+                if seleccion1 == 2:
                     nuevoEstadoIva = 'Exento'
                 else:
                     nuevoEstadoIva = 'Final'
@@ -282,10 +282,10 @@ class GestionComercial (object):
                 nuevaDir = self.val.string30('la dirección del cliente')
                 nuevoTel = self.val.numero('Teléfono',1099999999,11099999999)
                 nuevoEmail = self.val.email()
-                seleccion = self.menu.menuSel(self.estadoIVa,3)
-                if seleccion == 1:
+                seleccion1 = self.menu.menuSel(self.estadoIVa,3)
+                if seleccion1 == 1:
                     nuevoEstadoIva = 'Inscripto'
-                if seleccion == 2:
+                if seleccion1 == 2:
                     nuevoEstadoIva = 'Exento'
                 else:
                     nuevoEstadoIva = 'Final'

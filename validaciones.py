@@ -13,7 +13,7 @@ class Validacion(object):
                 break
             except ValueError:
                 os.system('cls')
-                print("\nPro favor ingrese valores numéricos")
+                print("\nPor favor ingrese valores numéricos")
         return ingreso      
     def stringSinNum(self,loQueSea):
         ingreso =""
@@ -146,5 +146,5 @@ class Validacion(object):
                 break
             except ValueError:
                 os.system('cls')
-                print("\nPro favor ingrese valores numéricos")
+                print("\nPor favor ingrese valores numéricos")
         return (f'{ingreso:.2f}')  
