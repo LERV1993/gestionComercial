@@ -94,6 +94,8 @@ class GestionComercial (object):
             artABorrar = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)
             if not type(artABorrar) == str:
                 self.gestArt.bajaArt(nuevoCodBarra)
+            else:
+                print("\nEl codigo de barra ingresado no se encuentra registrado.")
         if seleccion == 3:
             printModiArt = ('''
                 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -148,6 +150,8 @@ class GestionComercial (object):
             artAIngresar = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)
             if not type(artAIngresar) == str:
                 self.gestArt.ingresoArt(nuevoCodBarra,cantidadDeArt)
+            else:
+                print("\nEl código de barra ingresado no corresponde a un artículo registrado.")
         if seleccion == 5:
             artDistintos = self.val.numero('número de artículos distintos a ingresar',1,50)
             listaCodBarra = []
