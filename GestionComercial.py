@@ -111,28 +111,28 @@ class GestionComercial (object):
             codBarra = self.val.numero('Código de Barra',99999999999,999999999999)
             artAMod = self.base.hacerConsulta("Articulos","codigoBarra",codBarra)
             if not type(artAMod) == str:
-                seleccion = self.menu.menuNum(printModiArt,7)
-                if seleccion == 1:
+                seleccion1 = self.menu.menuNum(printModiArt,7)
+                if seleccion1 == 1:
                     nuevoCodBarra = self.val.numero('Nuevo Código de Barra',99999999999,999999999999)
                     artAMod[0] = nuevoCodBarra
                     self.gestArt.modificacionArt(codBarra,artAMod[0:5])
-                if seleccion == 2:
+                if seleccion1 == 2:
                     nuevoNom = self.val.string30('Nuevo Nombre de artículo')
                     artAMod[1] = nuevoNom
                     self.gestArt.modificacionArt(codBarra,artAMod[0:5])
-                if seleccion == 3:
+                if seleccion1 == 3:
                     nuevaCat = self.val.stringSinNum('Nueva Categoría')
                     artAMod[2] = nuevaCat
                     self.gestArt.modificacionArt(codBarra,artAMod[0:5])
-                if seleccion == 4:
+                if seleccion1 == 4:
                     nuevoPrecio = self.val.precio('Nuevo Precio',0.1,999999.99)
                     artAMod[3] = nuevoPrecio
                     self.gestArt.modificacionArt(codBarra,artAMod[0:5])
-                if seleccion == 5:
-                    nuevaCant = self.val.numero('número de existencias',1,999)
+                if seleccion1 == 5:
+                    nuevaCant = self.val.numero('número de existencias',0,999)
                     artAMod[4] = nuevaCant
                     self.gestArt.modificacionArt(codBarra,artAMod[0:5])
-                if seleccion == 6:
+                if seleccion1 == 6:
                     nuevoCodBarra = self.val.numero('Nuevo Código de Barra',99999999999,999999999999)
                     nuevoNom = self.val.string30('Nuevo Nombre de artículo')
                     nuevaCat = self.val.stringSinNum('Nueva Categoría')
@@ -178,7 +178,7 @@ class GestionComercial (object):
                     nuevoEstadoIva = 'Inscripto'
                 if seleccion1 == 2:
                     nuevoEstadoIva = 'Exento'
-                else:
+                elif seleccion1 == 3:
                     nuevoEstadoIva = 'Final'
                 nuevoProv =[nuevoCuit,nuevoNom,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
                 self.gestProv.altaProv(nuevoCuit,nuevoProv)
@@ -205,28 +205,28 @@ class GestionComercial (object):
             provCuit= self.val.numero('CUIT',9999999999,99999999999)
             proveedorAMod = self.base.hacerConsulta("Proveedores","CUIL_CUIT_Prov",provCuit)
             if not type(proveedorAMod) == str:  
-                seleccion = self.menu.menuNum(printModiProv,8)
-                if seleccion == 1:
+                seleccion1 = self.menu.menuNum(printModiProv,8)
+                if seleccion1 == 1:
                     nuevoCuit = self.val.numero('Nuevo CUIT',9999999999,99999999999)
                     proveedorAMod[0] = nuevoCuit
                     self.gestProv.modificarProv(provCuit,proveedorAMod)
-                if seleccion == 2:
+                if seleccion1 == 2:
                     nuevoNom = self.val.stringSinNum('Nuevo Nombre del Proveedor')
                     proveedorAMod[1] = nuevoNom
                     self.gestProv.modificarProv(provCuit,proveedorAMod)
-                if seleccion == 3:
+                if seleccion1 == 3:
                     nuevaDir = self.val.string30('la nueva dirección del proveedor')
                     proveedorAMod[2] = nuevaDir
                     self.gestProv.modificarProv(provCuit,proveedorAMod)
-                if seleccion == 4:
+                if seleccion1 == 4:
                     nuevoTel = self.val.numero('Nuevo Teléfono',1099999999,11099999999)
                     proveedorAMod[3] = nuevoTel
                     self.gestProv.modificarProv(provCuit,proveedorAMod)
-                if seleccion == 5:
+                if seleccion1 == 5:
                     nuevoEmail = self.val.email()
                     proveedorAMod[4] = nuevoEmail
                     self.gestProv.modificarProv(provCuit,proveedorAMod)
-                if seleccion == 6:
+                if seleccion1 == 6:
                     if seleccion == 1:
                         nuevoEstadoIva = 'Inscripto'
                     if seleccion == 2:
@@ -285,9 +285,9 @@ class GestionComercial (object):
                 seleccion1 = self.menu.menuSel(self.estadoIVa,3)
                 if seleccion1 == 1:
                     nuevoEstadoIva = 'Inscripto'
-                if seleccion1 == 2:
+                elif seleccion1 == 2:
                     nuevoEstadoIva = 'Exento'
-                else:
+                elif seleccion1 == 3:
                     nuevoEstadoIva = 'Final'
                 nuevoCli = [nuevoDNI,nuevoNom,nuevoApe,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
                 self.gestCli.altaCliente(nuevoDNI,nuevoCli)
@@ -383,8 +383,8 @@ class GestionComercial (object):
         while True:
             try:
                 while validar!="NO":
-                    self.base.inicializacionBase()
                     self.menuGeneral()
+                    self.base.inicializacionBase()
                     validar = input("\nDesea Realizar algo más? si/no: ").upper()
                     if validar!="SI" and validar!="NO":
                         print(f' Por favor ingrese Si o No.')

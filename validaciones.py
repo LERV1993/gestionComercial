@@ -2,7 +2,7 @@ import os
 
 class Validacion(object):
     def numero(self,loQueSea,mayorQue,menorQue):
-        ingreso = 0
+        ingreso = -1
         while True:
             try:
                 while ingreso < mayorQue or ingreso > menorQue:
