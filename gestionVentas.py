@@ -144,12 +144,6 @@ class gestionVentas(object):
                 print("\nformato de solicitud fecha: año:0000 - mes:00 - día:00")
                 fechaFactura=self.val.fecha()
 
-                factura=self.base.hacerConsulta('Ventas','codigoBarraVent',nuevoCodBarra)
-                for registro in factura:
-                    print(registro)
-                    print(factura)
-
-                print("ENTER")
                 numeroFactura1= self.base.ultimaFactura()
                 
                 os.system("cls")
