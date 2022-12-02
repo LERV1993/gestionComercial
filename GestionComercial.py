@@ -64,7 +64,7 @@ class GestionComercial (object):
             --  7: Salir                                                   --
             -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             ''')
-        self.VentaDirecta = (f'''
+        self.ventaDirecta = (f'''
             -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             --                      "Menu Venta"                           --
             -----------------------------------------------------------------
@@ -72,8 +72,7 @@ class GestionComercial (object):
             --  2: Listado Ventas Realizadas                               --
             --  3: Salir                                                   -- 
             -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-            ''')
-        
+            ''')        
         self.estadoIVa = (f'''
             -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             --                      "Estado de IVA"                        --
@@ -91,118 +90,6 @@ class GestionComercial (object):
         self.base = BaseDeDatos()
         self.gestVentas = gestionVentas()
         self.base.inicializacionBase()
-
-
-    def menuVentas(self):
-        seleccion = self.menu.menuNum(self.VentaDirecta,3)
-        if seleccion == 1:
-            nuevoDNI = self.val.numero('DNI',1000000,99999999)
-            agregarConsFinal = self.base.hacerConsulta('Clientes','DNI_Cli',nuevoDNI)
-            if type(agregarConsFinal) == str:
-                nuevoNom = self.val.stringSinNum('Nombre del cliente')
-                nuevoApe = self.val.stringSinNum('Apellido del cliente')
-                nuevaDir = self.val.string30('la dirección del cliente')
-                nuevoTel = self.val.numero('Teléfono',1099999999,11099999999)
-                nuevoEmail = self.val.email()
-                selIVA = self.menu.menuSel(self.estadoIVa,3)
-                if selIVA == 1:
-                    nuevoEstadoIva = 'Inscripto'
-                elif selIVA == 2:
-                    nuevoEstadoIva = 'Exento'
-                else:
-                    nuevoEstadoIva = 'Final'
-                nuevoCli = [nuevoDNI,nuevoNom,nuevoApe,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
-                self.gestCli.altaCliente(nuevoDNI,nuevoCli)
-
-                print("\n Ingreso de Artículo Requerido para la Venta\n")
-                nuevoCodBarra = self.val.numero('Código de Barra',99999999999,999999999999)
-                artVenta = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)
-                if not type(artVenta) == str:
-                    print(f'''\nVerifique el artículo a vender:
-                    Código de barra_______: {artVenta[0]}
-                    Nombre de artículo____: {artVenta[1]}
-                    Categoría de artículo_: {artVenta[2]}
-                    Precio de artículo____: {artVenta[3]}
-        --------►   Cantidad disp. art.___: {artVenta[4]}
-                    Cuit de proveedor_____: {artVenta[5]}
-                    ''')
-                else:
-                    print("\nEl código de barra ingresado no corresponde a un articulo registrado.\Verifique el artículo antes de la venta.")     
-                self.gestVentas.CliCompra(nuevoCodBarra,artVenta)
-            else:
-                os.system("cls")
-                print("""\nEl DNI corresponde a un cliente ya registrado.""")
-
-                print("\nIngreso de Artículo Requerido para la Venta:")
-                nuevoCodBarra = self.val.numero('Código de Barra',99999999999,999999999999)
-                artVenta = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)
-                os.system("cls")
-                if not type(artVenta) == str:
-                    print(f'''\nVerifique el artículo a vender:
-                    Código de barra_______: {artVenta[0]}
-                    Nombre de artículo____: {artVenta[1]}
-                    Categoría de artículo_: {artVenta[2]}
-                    Precio de artículo____: {artVenta[3]}
-        --------►   Cantidad disp. art.___: {artVenta[4]}
-                    Cuit de proveedor_____: {artVenta[5]}
-                    ''')
-                    
-                else:
-                    os.system("cls")
-                    print(input("\nEl código de barra ingresado no corresponde a un articulo registrado.\nVerifique el artículo antes de la venta. Presione 'ENTER' para continuar..."))
-                    self.menuArticulos()
-
-                self.gestVentas.ventaArticulos(nuevoDNI)
-                self.gestVentas.CliCompra(nuevoCodBarra,nuevoDNI)
-
-
-
-
-
-
-
-        if seleccion==2:
-            listaRegistros = []
-            registros= self.base.cantidadDeRegistros('Ventas')
-            datos = []
-            mlist = []
-            for lista in range(0,len(registros)):
-                for elemento in range(0,len(registros[lista])):
-                    if elemento != 1 and elemento < 10:
-                        mlist.append(registros[lista][elemento])
-                    elif elemento == 1:
-                        mlist.append(str(registros[lista][elemento]))
-                    else:
-                        mlist.append(str(registros[lista][elemento]))
-                        datos.append(mlist)
-                        mlist=[]
-             
-                    
-            for registro in datos:
-                listaRegistros.append(list(registro))
-                tablaVentas = """\
-                                                                     ---------------------- Se muestra un límite de 100 registros ----------------------                           
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|   COD.VTA.       FECHA FACT.        N°FACTURA        COD.BARRA                NOMBRE ART              CANT.ART.     DNI CLI.    MONTO T.                NOM.CLI.                      APELL.CLI.            SIT.IVA CLI. |   
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-{}                                                                                                                                                                                                                   
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\
-"""
-                tablaVentas = (tablaVentas.format('\n'.join("| {0:^10} | {1:^18} | {2:^12} | {3:^16} | {4:^30} | {5:^10} | {6:^10} | {7:^10} | {8:^30}| {9:^30} | {10:^11} |".format(*fila)
-                for fila in listaRegistros)))
-            print(tablaVentas)
-
-
-
-
-
-
-
-
-        if seleccion==3:
-            print("\nSe salió del Menú Venta")
-
-
     def menuArticulos(self):
         seleccion = self.menu.menuNum(self.menuArt,7)
         if seleccion == 1:
@@ -416,8 +303,7 @@ class GestionComercial (object):
             else:
                 print("\nEl artículo que se intenta devolver no está registrado en la base de datos.")
         else:
-            self.menuGeneral()
-            
+            self.menuGeneral()       
     def menuClientes(self):
         seleccion = self.menu.menuNum(self.menuCli,4)
         if seleccion == 1:
@@ -513,7 +399,72 @@ class GestionComercial (object):
             else:
                 print("\nEl DNI ingresado no corresponde a un cliente registrado.\nSe salio del menu de modificación de cliente.")
         else:
-            print("\nSe salió de: Menu Clientes.")            
+            print("\nSe salió de: Menu Clientes.")     
+    def menuVentas(self):
+        seleccion = self.menu.menuNum(self.ventaDirecta,3)
+        if seleccion == 1:
+            nuevoDNI = self.val.numero('DNI',1000000,99999999)
+            agregarConsFinal = self.base.hacerConsulta('Clientes','DNI_Cli',nuevoDNI)
+            if type(agregarConsFinal) == str:
+                nuevoNom = self.val.stringSinNum('Nombre del cliente')
+                nuevoApe = self.val.stringSinNum('Apellido del cliente')
+                nuevaDir = self.val.string30('la dirección del cliente')
+                nuevoTel = self.val.numero('Teléfono',1099999999,11099999999)
+                nuevoEmail = self.val.email()
+                selIVA = self.menu.menuSel(self.estadoIVa,3)
+                if selIVA == 1:
+                    nuevoEstadoIva = 'Inscripto'
+                elif selIVA == 2:
+                    nuevoEstadoIva = 'Exento'
+                else:
+                    nuevoEstadoIva = 'Final'
+                nuevoCli = [nuevoDNI,nuevoNom,nuevoApe,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
+                self.gestCli.altaCliente(nuevoDNI,nuevoCli)
+
+                print("\n Ingreso de Artículo Requerido para la Venta\n")
+                nuevoCodBarra = self.val.numero('Código de Barra',99999999999,999999999999)
+                artVenta = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)
+                if not type(artVenta) == str:
+                    print(f'''\nVerifique el artículo a vender:
+                    Código de barra_______: {artVenta[0]}
+                    Nombre de artículo____: {artVenta[1]}
+                    Categoría de artículo_: {artVenta[2]}
+                    Precio de artículo____: {artVenta[3]}
+        --------►   Cantidad disp. art.___: {artVenta[4]}
+                    Cuit de proveedor_____: {artVenta[5]}
+                    ''')
+                else:
+                    print("\nEl código de barra ingresado no corresponde a un articulo registrado.\Verifique el artículo antes de la venta.")     
+                self.gestVentas.CliCompra(nuevoCodBarra,artVenta)
+            else:
+                os.system("cls")
+                print("""\nEl DNI corresponde a un cliente ya registrado.""")
+
+                print("\nIngreso de Artículo Requerido para la Venta:")
+                nuevoCodBarra = self.val.numero('Código de Barra',99999999999,999999999999)
+                artVenta = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)
+                os.system("cls")
+                if not type(artVenta) == str:
+                    print(f'''\nVerifique el artículo a vender:
+                    Código de barra_______: {artVenta[0]}
+                    Nombre de artículo____: {artVenta[1]}
+                    Categoría de artículo_: {artVenta[2]}
+                    Precio de artículo____: {artVenta[3]}
+        --------►   Cantidad disp. art.___: {artVenta[4]}
+                    Cuit de proveedor_____: {artVenta[5]}
+                    ''')
+                    
+                else:
+                    os.system("cls")
+                    print(input("\nEl código de barra ingresado no corresponde a un articulo registrado.\nVerifique el artículo antes de la venta. Presione 'ENTER' para continuar..."))
+                    self.menuArticulos()
+
+                self.gestVentas.ventaArticulos(nuevoDNI)
+                self.gestVentas.CliCompra(nuevoCodBarra,nuevoDNI)
+        if seleccion==2:
+            self.gestVentas.listadoVentas()
+        if seleccion==3:
+            print("\nSe salió del Menú Venta")      
     def menuGeneral(self):
         seleccion = self.menu.menuNum(self.menuGral,5)
         if seleccion == 1:

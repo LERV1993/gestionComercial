@@ -12,9 +12,16 @@ class gestionVentas(object):
         self.menu = opcMenu()
         self.val = Validacion()
         self.gestCli = GestionCliente()
-
+        self.estadoIVa = (f'''
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            --                      "Estado de IVA"                        --
+            -----------------------------------------------------------------
+            --  1: Inscripto                                               --
+            --  2: Excento                                                 --
+            --  3: Final                                                   -- 
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            ''')
     def ventaArticulos(self,nuevoDNI):
-
         nuevoCli = self.base.hacerConsulta("Clientes","DNI_Cli",nuevoDNI)  
         if not type(nuevoCli) == str:
             
@@ -83,8 +90,7 @@ class gestionVentas(object):
                 print("\nformato de solicitud fecha: año:0000 - mes:00 - día:00")
                 fechaFactura=self.val.fecha()
                 
-                numeroFactura1="0001-000000"
-                numeroFactura2=int(input("Ingrese número de Factura: "))
+                numeroFactura1= self.base.ultimaFactura()
                 
                 totalIva=total*21/100
                 cutiCliente=input("\nIngrese CUIT de cliente: ")
@@ -93,7 +99,7 @@ class gestionVentas(object):
                 
                 print(f'''
                                     ♦============================================================♦
-                                                         N° {numeroFactura1}{numeroFactura2}
+                                                              N° {numeroFactura1}
                                     ♦      ♦                  FACTURA (A)                 ♦      ♦
                                                                                Fecha: {fechaFactura}
                                     ♦============================================================♦
@@ -125,8 +131,9 @@ class gestionVentas(object):
                                                       Total______________$ {total}     
                                     ♦============================================================♦
                                                 ''')
-                vendido=[fechaFactura,numeroFactura2,compra[0],compra[1],cantVenta,total,cliente[0],cliente[1],cliente[2],cliente[6]]
+                vendido=[fechaFactura,numeroFactura1,compra[0],compra[1],cantVenta,cliente[0],total,cliente[1],cliente[2],cliente[6]]
                 self.base.registrarVenta(vendido)
+
 
 
 
@@ -136,22 +143,19 @@ class gestionVentas(object):
                 cliente=self.base.hacerConsulta('Clientes','DNI_Cli',dniCliente)
                 print("\nformato de solicitud fecha: año:0000 - mes:00 - día:00")
                 fechaFactura=self.val.fecha()
-# prueba de automatización la implementacion de la factura
-                numeroFactura=[]
+
                 factura=self.base.hacerConsulta('Ventas','codigoBarraVent',nuevoCodBarra)
                 for registro in factura:
                     print(registro)
                     print(factura)
 
                 print("ENTER")
-                numeroFactura1="0001-000000"
-# Hasta aca
-               # numeroFactura2=int(input("\nIngrese número de Factura: "))
+                numeroFactura1= self.base.ultimaFactura()
                 
                 os.system("cls")
                 print(f'''
                                     ==============================================================
-                                                         N° {numeroFactura1}{numeroFactura2}
+                                                              N° {numeroFactura1}
                                     -      ♦                  FACTURA (B)                 ♦      -
                                                                            Fecha: {fechaFactura}
                                     ==============================================================
@@ -182,14 +186,41 @@ class gestionVentas(object):
                                     Montos de compra________Total________$ {total}     
                                     ==============================================================
                                                 ''')
-                vendido=[fechaFactura,numeroFactura2,compra[0],compra[1],cantVenta,total,cliente[0],cliente[1],cliente[2],cliente[6]]
+                vendido=[fechaFactura,numeroFactura1,compra[0],compra[1],cantVenta,cliente[0],total,cliente[1],cliente[2],cliente[6]]
                 self.base.registrarVenta(vendido)
 
 
         else:
             print("\nOperación cancelada.")
         
-    def listadoVentas(self,lista):
-        lista=self.base.cantidadDeRegistros()
-        print(lista)
+    def listadoVentas(self):
+            listaRegistros = []
+            registros= self.base.cantidadDeRegistros('Ventas')
+            datos = []
+            mlist = []
+            for lista in range(0,len(registros)):
+                for elemento in range(0,len(registros[lista])):
+                    if elemento != 1 and elemento < 10:
+                        mlist.append(registros[lista][elemento])
+                    elif elemento == 1:
+                        mlist.append(str(registros[lista][elemento]))
+                    else:
+                        mlist.append(str(registros[lista][elemento]))
+                        datos.append(mlist)
+                        mlist=[]
+             
+                    
+            for registro in datos:
+                listaRegistros.append(list(registro))
+                tablaVentas = """\
+                                                                     ---------------------- Se muestra un límite de 100 registros ----------------------                           
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|   COD.VTA.       FECHA FACT.        N°FACTURA        COD.BARRA                NOMBRE ART              CANT.ART.     DNI CLI.    MONTO T.                NOM.CLI.                      APELL.CLI.            SIT.IVA CLI. |   
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+{}                                                                                                                                                                                                                   
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\
+"""
+                tablaVentas = (tablaVentas.format('\n'.join("| {0:^10} | {1:^18} | {2:^12} | {3:^16} | {4:^30} | {5:^10} | {6:^10} | {7:^10} | {8:^30}| {9:^30} | {10:^11} |".format(*fila)
+                for fila in listaRegistros)))
+            print(tablaVentas)
     
