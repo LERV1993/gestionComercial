@@ -10,14 +10,14 @@ class GestionCliente(object):
     def altaCliente(self,dni_cliente,cliente):
         clienteporagregar = self.base.hacerConsulta("Clientes","DNI_Cli",dni_cliente)  
         if type(clienteporagregar) == str:
-            print1=(f'''Se generará el alta del cliente: 
-                  DNI de cliente: {cliente[0]}
-                  Nombre de cliente: {cliente[1]}
-                  Apellido cliente: {cliente[2]}
-                  Direccion: {cliente[3]}
-                  Telefono: {cliente[4]}
-                  Email: {cliente[5]}
-                  Situacion IVA: {cliente[6]}
+            print1=(f''' Se generará el cliente:
+                DNI de cliente______: {cliente[0]}
+                Nombre de cliente___: {cliente[1]}
+                Apellido cliente____: {cliente[2]}
+                Direccion cliente___: {cliente[3]}
+                Telefono cliente____: {cliente[4]}
+                Email de cliente____: {cliente[5]}
+                Situación IVA cli___: {cliente[6]}
                 ''')   
             if self.menu.menuSiNo(print1):
                 os.system("cls")

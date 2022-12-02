@@ -4,7 +4,7 @@ class BaseDeDatos(object):
     def __init__(self):
         self.bd = mariadb.connect(
         host="localhost",
-        port=3306,
+        port=4005,
         user="root",
         password="",
         autocommit=True
@@ -18,7 +18,7 @@ class BaseDeDatos(object):
     def conectarBaseDeDatos(self):
         self.bd =mariadb.connect(
         host="localhost",
-        port=3306,
+        port=4005,
         user="root",
         password="",
         db = "Gestion_Comercial"
@@ -162,7 +162,7 @@ class BaseDeDatos(object):
     def cantidadDeRegistros(self,tabla):
         self.cursor.execute(f"SELECT * FROM {tabla} LIMIT 100")
         registros = self.cursor.fetchall()
-        return(registros)
+        return(list(registros))
     def crearConsumidorFinal(self):
         sql = "INSERT INTO Clientes (DNI_Cli, NombreCli, ApellidoCli, direccionCli, telefonoCli, mailCli, estadoIvaCli) VALUES (0,'Consumidor','Final','Null',0,'NULL','Final')"
         self.cursor.execute(sql)
@@ -176,8 +176,3 @@ class BaseDeDatos(object):
         self.ventasTabla()
         self.devolucionesTabla()
         self.reposicionTabla()
-        #agregarConsFinal = self.hacerConsulta('Clientes','DNI_Cli',0)
-        #if type(agregarConsFinal) == str:
-        #    self.crearConsumidorFinal()
-        #else:
-        #    return('Consumidor final ok')

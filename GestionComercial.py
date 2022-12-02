@@ -96,7 +96,6 @@ class GestionComercial (object):
     def menuVentas(self):
         seleccion = self.menu.menuNum(self.VentaDirecta,3)
         if seleccion == 1:
-            final = 0
             nuevoDNI = self.val.numero('DNI',1000000,99999999)
             agregarConsFinal = self.base.hacerConsulta('Clientes','DNI_Cli',nuevoDNI)
             if type(agregarConsFinal) == str:
@@ -163,72 +162,36 @@ class GestionComercial (object):
 
 
         if seleccion==2:
-            
-            mydb = mariadb.connect(
-                host="127.0.0.1",
-                user="root",
-#            password="RootPassword123!",    # no le puse pass a mi base por el momento
-                database = "Gestion_Comercial"
-                )
-
-            mycursor = mydb.cursor()
-            mycursor.execute("SELECT Precio_TotalArt FROM Ventas")
-            miResult = mycursor.fetchall()
-            for ind in miResult:
-                print(ind)
-            
-
-
-            print(miResult)
-
-            print(input("ENTER"))
-            mycursor = mydb.cursor()
-            mycursor.execute("SELECT * FROM Ventas")
-            myresultado = mycursor.fetchall()
-            print(F'''
-               __________________________________________
-               |   VENTAS REGISTRADAS A LA ACTUALIDAD   |
-               ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-               ♦ MONTO TOTAL DE VENTAS A LA FECHA''')
-            for tablaLista in myresultado:
-                print(tablaLista)
-                
-                print(f'''
-               
-               ******************************************
-
-               ♦ FECHA FACTURA_____________: {tablaLista[1]}
-               ♦ N° DE FACTURA_____________: {tablaLista[2]}
-               ♦ CÓDIGO BARRA ART__________: {tablaLista[3]}
-               ♦ NOMBRE DE ART_____________: {tablaLista[4]}
-               ♦ CANT.VENDIDA.ART__________: {tablaLista[5]}
-               ♦ MONTO TOTAL ART___________: {tablaLista[7]}
-               ♦ DNI CLIENTE_______________: {tablaLista[6]}
-               ♦ NOMBRE CLIENTE____________: {tablaLista[8]}
-               ♦ APELLIDO CLIENTE__________: {tablaLista[9]}
-               ♦ SITUACIÓN IVA_____________: {tablaLista[10]}
-
-               ******************************************
-               ''')
-
             listaRegistros = []
             registros= self.base.cantidadDeRegistros('Ventas')
-            for registro in registros:
+            datos = []
+            mlist = []
+            for lista in range(0,len(registros)):
+                for elemento in range(0,len(registros[lista])):
+                    if elemento != 1 and elemento < 10:
+                        mlist.append(registros[lista][elemento])
+                    elif elemento == 1:
+                        mlist.append(str(registros[lista][elemento]))
+                    else:
+                        mlist.append(str(registros[lista][elemento]))
+                        datos.append(mlist)
+                        mlist=[]
+             
+                    
+            for registro in datos:
                 listaRegistros.append(list(registro))
                 tablaVentas = """\
-                        ---------------------- Se muestra un límite de 100 registros ----------------------                           
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| COD.VTA.     FECHA FACT.      N°FACTURA         COD.BARRA        NOMBRE ART.       CANT.ART.          DNI CLI.       MONTO T.         NOM.CLI.            APELL.CLI.         SIT.IVA CLI. |   
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+                                                                     ---------------------- Se muestra un límite de 100 registros ----------------------                           
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|   COD.VTA.       FECHA FACT.        N°FACTURA        COD.BARRA                NOMBRE ART              CANT.ART.     DNI CLI.    MONTO T.                NOM.CLI.                      APELL.CLI.            SIT.IVA CLI. |   
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 {}                                                                                                                                                                                                                   
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\
 """
-                tablaVentas = (tablaVentas.format('\n'.join("| {0:^8} | {1:^12} | {2:^12} | {3:^15} | {4:^20} | {5:^10} | {6:^10} | {7:^10} | {8:^20}| {9:^20} | {10:^10} |".format(*fila)
+                tablaVentas = (tablaVentas.format('\n'.join("| {0:^10} | {1:^18} | {2:^12} | {3:^16} | {4:^30} | {5:^10} | {6:^10} | {7:^10} | {8:^30}| {9:^30} | {10:^11} |".format(*fila)
                 for fila in listaRegistros)))
-                os.system("cls")
-                print(tablaVentas)
-                print(listaRegistros)
-            print(input("ENTER"))
+            print(tablaVentas)
+
 
 
 

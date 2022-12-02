@@ -1,6 +1,7 @@
 from baseDeDatos import BaseDeDatos
 from OpcMenu import *
 from validaciones import *
+from gestionCliente import *
 import os
 
 class gestionVentas(object):
@@ -10,41 +11,40 @@ class gestionVentas(object):
         self.base.inicializacionBase()
         self.menu = opcMenu()
         self.val = Validacion()
+        self.gestCli = GestionCliente()
 
     def ventaArticulos(self,nuevoDNI):
 
-        self.nuevoCli = self.base.hacerConsulta("Clientes","DNI_Cli",nuevoDNI)  
-        if type(self.nuevoCli) == str:
+        nuevoCli = self.base.hacerConsulta("Clientes","DNI_Cli",nuevoDNI)  
+        if not type(nuevoCli) == str:
             
             print1=(f'''Registro de Comprador:
-                DNI de cliente______: {self.nuevoCli[0]}
-                Nombre de cliente___: {self.nuevoCli[1]}
-                Apellido cliente____: {self.nuevoCli[2]}
-                Direccion cliente___: {self.nuevoCli[3]}
-                Telefono cliente____: {self.nuevoCli[4]}
-                Email de cliente____: {self.val.email()}
-                Situación IVA cli___: {self.nuevoCli[6]}
+                DNI de cliente______: {nuevoCli[0]}
+                Nombre de cliente___: {nuevoCli[1]}
+                Apellido cliente____: {nuevoCli[2]}
+                Direccion cliente___: {nuevoCli[3]}
+                Telefono cliente____: {nuevoCli[4]}
+                Email de cliente____: {nuevoCli[5]}
+                Situación IVA cli___: {nuevoCli[6]}
                 ''')
-            print("ACA")
-            print("PINCHA ACÁ 2")
-            if self.menu.menuSiNo(print1):
-                
-                self.base.altaCliente(self.nuevoCli)
-                print("\n Registro de cliente exitoso.")
-            else:
-                print("\nSe canceló la operación.")
-        else:
+            print(print1)
             
-            print2=(f'''Registro de Comprador:
-                    DNI de cliente______: {self.nuevoCli[0]}
-                    Nombre de cliente___: {self.nuevoCli[1]}
-                    Apellido cliente____: {self.nuevoCli[2]}
-                    Direccion cliente___: {self.nuevoCli[3]}
-                    Telefono cliente____: {self.nuevoCli[4]}
-                    Email de cliente____: {self.nuevoCli[5]}
-                    Situación IVA cli___: {self.nuevoCli[6]}
-                    ''')
-            print("PINCHO ACÁ")
+        else:
+            print("Nuevo cliente a registrar: ")
+            nuevoNom = self.val.stringSinNum('Nombre del cliente')
+            nuevoApe = self.val.stringSinNum('Apellido del cliente')
+            nuevaDir = self.val.string30('la dirección del cliente')
+            nuevoTel = self.val.numero('Teléfono',1099999999,11099999999)
+            nuevoEmail = self.val.email()
+            selIVA = self.menu.menuSel(self.estadoIVa,3)
+            if selIVA == 1:
+                nuevoEstadoIva = 'Inscripto'
+            elif selIVA == 2:
+                nuevoEstadoIva = 'Exento'
+            else:
+                nuevoEstadoIva = 'Final'
+            nuevoCli = [nuevoDNI,nuevoNom,nuevoApe,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
+            self.gestCli.altaCliente(nuevoDNI,nuevoCli)
 
     def CliCompra(self,nuevoCodBarra,dniCliente):
 
@@ -136,7 +136,7 @@ class gestionVentas(object):
                 cliente=self.base.hacerConsulta('Clientes','DNI_Cli',dniCliente)
                 print("\nformato de solicitud fecha: año:0000 - mes:00 - día:00")
                 fechaFactura=self.val.fecha()
-
+# prueba de automatización la implementacion de la factura
                 numeroFactura=[]
                 factura=self.base.hacerConsulta('Ventas','codigoBarraVent',nuevoCodBarra)
                 for registro in factura:
@@ -145,6 +145,7 @@ class gestionVentas(object):
 
                 print("ENTER")
                 numeroFactura1="0001-000000"
+# Hasta aca
                # numeroFactura2=int(input("\nIngrese número de Factura: "))
                 
                 os.system("cls")
