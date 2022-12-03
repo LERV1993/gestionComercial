@@ -70,7 +70,7 @@ class gestionVentas(object):
                 print("\nINGRESE DATOS ADICIONALES PARA TERMINAR FACTURACIÓN\n")
                 
                 print("\nformato de solicitud fecha: año:0000 - mes:00 - día:00")
-                fechaFactura=self.val.fecha()
+                now = self.val.tiempoAhora()
                 
                 numeroFactura1= self.base.ultimaFactura()
                 
@@ -83,7 +83,7 @@ class gestionVentas(object):
                                     ♦============================================================♦
                                                               N° {numeroFactura1}
                                     ♦      ♦                  FACTURA (A)                 ♦      ♦
-                                                                               Fecha: {fechaFactura}
+                                                                               Fecha: {now}
                                     ♦============================================================♦
                                     ♦ tel: 011-5175-9042       EMPRESA: SUPPLY TECHNOLOGY PLG.SA ♦
                                     ♦      011-6522-1397       Cuit: 30-24769651-2               ♦
@@ -113,7 +113,7 @@ class gestionVentas(object):
                                                       Total______________$ {total}     
                                     ♦============================================================♦
                                                 ''')
-                vendido=[fechaFactura,numeroFactura1,compra[0],compra[1],cantVenta,cliente[0],total,cliente[1],cliente[2],cliente[6]]
+                vendido=[now,numeroFactura1,compra[0],compra[1],cantVenta,cliente[0],total,cliente[1],cliente[2],cliente[6]]
                 self.base.registrarVenta(vendido)
 
 
@@ -124,7 +124,7 @@ class gestionVentas(object):
                 print("\nINGRESE DATOS ADICIONALES PARA TERMINAR FACTURACIÓN\n")
                 cliente=self.base.hacerConsulta('Clientes','DNI_Cli',dniCliente)
                 print("\nformato de solicitud fecha: año:0000 - mes:00 - día:00")
-                fechaFactura=self.val.fecha()
+                now = self.val.tiempoAhora()
                 numeroFactura1= self.base.ultimaFactura()
                 
                 os.system("cls")
@@ -132,7 +132,7 @@ class gestionVentas(object):
                                     ==============================================================
                                                               N° {numeroFactura1}
                                     -      ♦                  FACTURA (B)                 ♦      -
-                                                                           Fecha: {fechaFactura}
+                                                                           Fecha: {now}
                                     ==============================================================
                                     - tel: 011-5175-9042       EMPRESA: SUPPLY TECHNOLOGY PLG.SA -
                                     -      011-6522-1397       Cuit: 30-24769651-2               -
@@ -161,7 +161,7 @@ class gestionVentas(object):
                                     Montos de compra________Total________$ {total}     
                                     ==============================================================
                                                 ''')
-                vendido=[fechaFactura,numeroFactura1,compra[0],compra[1],cantVenta,cliente[0],total,cliente[1],cliente[2],cliente[6]]
+                vendido=[now,numeroFactura1,compra[0],compra[1],cantVenta,cliente[0],total,cliente[1],cliente[2],cliente[6]]
                 self.base.registrarVenta(vendido)
 
 
