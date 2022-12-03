@@ -21,7 +21,7 @@ class gestionVentas(object):
             --  3: Final                                                   -- 
             -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
             ''')
-    def ventaArticulos(self,nuevoDNI):
+    def mostrarComprador(self,nuevoDNI):
         nuevoCli = self.base.hacerConsulta("Clientes","DNI_Cli",nuevoDNI)  
         if not type(nuevoCli) == str:
             
@@ -35,24 +35,6 @@ class gestionVentas(object):
                 Situación IVA cli___: {nuevoCli[6]}
                 ''')
             print(print1)
-            
-        else:
-            print("Nuevo cliente a registrar: ")
-            nuevoNom = self.val.stringSinNum('Nombre del cliente')
-            nuevoApe = self.val.stringSinNum('Apellido del cliente')
-            nuevaDir = self.val.string30('la dirección del cliente')
-            nuevoTel = self.val.numero('Teléfono',1099999999,11099999999)
-            nuevoEmail = self.val.email()
-            selIVA = self.menu.menuSel(self.estadoIVa,3)
-            if selIVA == 1:
-                nuevoEstadoIva = 'Inscripto'
-            elif selIVA == 2:
-                nuevoEstadoIva = 'Exento'
-            else:
-                nuevoEstadoIva = 'Final'
-            nuevoCli = [nuevoDNI,nuevoNom,nuevoApe,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
-            self.gestCli.altaCliente(nuevoDNI,nuevoCli)
-
     def CliCompra(self,nuevoCodBarra,dniCliente):
 
         compra = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)

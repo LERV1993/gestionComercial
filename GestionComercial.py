@@ -458,10 +458,14 @@ class GestionComercial (object):
                     print(input("\nEl código de barra ingresado no corresponde a un articulo registrado.\nVerifique el artículo antes de la venta. Presione 'ENTER' para continuar..."))
                     self.menuArticulos()
 
-                self.gestVentas.ventaArticulos(nuevoDNI)
+                self.gestVentas.mostrarComprador(nuevoDNI)
                 self.gestVentas.CliCompra(nuevoCodBarra,nuevoDNI)
         elif seleccion==2:
-            self.gestVentas.listadoVentas()
+            registros = self.base.cantidadDeRegistros('Ventas')
+            if len(registros)>0:
+                self.gestVentas.listadoVentas()
+            else:
+                print("\nNo existen registros para mostrar. Intente de nuevo más tarde.")
         else:
             print("\n...Saliendo del menu Ventas.")      
     def menuGeneral(self):
