@@ -149,7 +149,6 @@ class Validacion(object):
                 os.system('cls')
                 print("\nPor favor ingrese valores numéricos")
         return (f'{ingreso:.2f}')  
-    
     def tiempoAhora(self):
         tiempo = time.localtime()
         ahora = (f'{tiempo[0]}-{tiempo[1]}-{tiempo[2]}')
