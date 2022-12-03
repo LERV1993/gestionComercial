@@ -111,14 +111,14 @@ class GestionComercial (object):
                 self.menuProveedores()
             else:
                 print("\nEl código de barra ingresado ya corresponde a un articulo registrado.\nSe salió del menu de alta de artículos.")
-        if seleccion == 2:
+        elif seleccion == 2:
             nuevoCodBarra = self.val.numero('Código de Barra',99999999999,999999999999)
             artABorrar = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)
             if not type(artABorrar) == str:
                 self.gestArt.bajaArt(nuevoCodBarra)
             else:
                 print("\nEl codigo de barra ingresado no se encuentra registrado.")
-        if seleccion == 3:
+        elif seleccion == 3:
             printModiArt = ('''
                 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
                 --                    "Modificación de Artículo"               --
@@ -168,7 +168,7 @@ class GestionComercial (object):
                     pass
             else:
                 print("\nEl código de barra ingresado ya corresponde a un articulo registrado.\nSe salió del menu de alta de artículos.")
-        if seleccion == 4:
+        elif seleccion == 4:
             nuevoCodBarra = self.val.numero('Código de Barra',99999999999,999999999999)
             cantidadDeArt = self.val.numero('número de existencias a ingresar',1,999)
             artAIngresar = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)
@@ -176,7 +176,7 @@ class GestionComercial (object):
                 self.gestArt.ingresoArt(nuevoCodBarra,cantidadDeArt)
             else:
                 print("\nEl código de barra ingresado no corresponde a un artículo registrado.")
-        if seleccion == 5:
+        elif seleccion == 5:
             artDistintos = self.val.numero('número de artículos distintos a ingresar',1,50)
             listaCodBarra = []
             listaCantidad = []
@@ -187,10 +187,10 @@ class GestionComercial (object):
                 listaCodBarra.append(nuevoCodBarra)
                 listaCantidad.append(cantidadDeArt)
             self.gestArt.ingresoRemito(listaCodBarra,listaCantidad)
-        if seleccion == 6:
+        elif seleccion == 6:
             self.gestArt.listadoSinStock()
-        if seleccion == 7:
-            print("\nSe salió del menu de alta de artículos.")
+        else:
+            print("\n...Saliendo de menu Artículos.")
     def menuProveedores(self):
         seleccion = self.menu.menuNum(self.menuProv,6)
         if seleccion == 1:
@@ -211,12 +211,11 @@ class GestionComercial (object):
                 nuevoProv =[nuevoCuit,nuevoNom,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
                 self.gestProv.altaProv(nuevoCuit,nuevoProv)
             else:
-                os.system("cls")
                 print("""\nEl CUIT corresponde a un proveedor ya registrado.""")
-        if seleccion == 2:
+        elif seleccion == 2:
             nuevoCuit= self.val.numero('CUIT',9999999999,99999999999)
             self.gestProv.bajaProv(nuevoCuit)
-        if seleccion == 3:
+        elif seleccion == 3:
             printModiProv = ('''
                 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
                 --                 "Modificación de Proveedor"                 --
@@ -280,7 +279,7 @@ class GestionComercial (object):
             else:
                 os.system("cls")
                 print("\nEl CUIT ingresado no corresponde a un proveedor registrado.")
-        if seleccion == 4:
+        elif seleccion == 4:
             pedidoCodBarra = self.val.numero('Código de barra',99999999999,999999999999)
             artASolicitar = self.base.hacerConsulta("Articulos","codigoBarra",pedidoCodBarra)
             if not type(artASolicitar) == str:
@@ -291,7 +290,7 @@ class GestionComercial (object):
             else:
                 os.system("cls")
                 print("\nEl articulo solicitado no esta registrado en la base de datos. Genere el alta primero.")
-        if seleccion == 5:
+        elif seleccion == 5:
             devolucionCodBarra = self.val.numero('Código de barra del artículo a devolver',99999999999,999999999999)
             existeArt = self.base.hacerConsulta('Articulos','codigoBarra',devolucionCodBarra)
             if not type(existeArt) == str:
@@ -303,7 +302,7 @@ class GestionComercial (object):
             else:
                 print("\nEl artículo que se intenta devolver no está registrado en la base de datos.")
         else:
-            self.menuGeneral()       
+            print("\n...Saliendo del menu Proveedor.")      
     def menuClientes(self):
         seleccion = self.menu.menuNum(self.menuCli,4)
         if seleccion == 1:
@@ -326,10 +325,10 @@ class GestionComercial (object):
                 self.gestCli.altaCliente(nuevoDNI,nuevoCli)
             else:
                 print("""\nEl DNI corresponde a un cliente ya registrado.""")
-        if seleccion == 2:
+        elif seleccion == 2:
             dniCliente = self.val.numero('DNI',1000000,99999999)
             self.gestCli.borrarCliente(dniCliente)
-        if seleccion == 3:
+        elif seleccion == 3:
             os.system("cls")
             printModiCli=(f'''
                 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -399,7 +398,7 @@ class GestionComercial (object):
             else:
                 print("\nEl DNI ingresado no corresponde a un cliente registrado.\nSe salio del menu de modificación de cliente.")
         else:
-            print("\nSe salió de: Menu Clientes.")     
+            print("\n...Saliendo del menu Clientes.")     
     def menuVentas(self):
         seleccion = self.menu.menuNum(self.ventaDirecta,3)
         if seleccion == 1:
@@ -461,22 +460,21 @@ class GestionComercial (object):
 
                 self.gestVentas.ventaArticulos(nuevoDNI)
                 self.gestVentas.CliCompra(nuevoCodBarra,nuevoDNI)
-        if seleccion==2:
+        elif seleccion==2:
             self.gestVentas.listadoVentas()
-        if seleccion==3:
-            print("\nSe salió del Menú Venta")      
+        else:
+            print("\n...Saliendo del menu Ventas.")      
     def menuGeneral(self):
         seleccion = self.menu.menuNum(self.menuGral,5)
         if seleccion == 1:
             self.menuProveedores()
-        if seleccion == 2:
+        elif seleccion == 2:
             self.menuClientes()
-        if seleccion == 3:
+        elif seleccion == 3:
             self.menuArticulos()
-        if seleccion == 4:
+        elif seleccion == 4:
             self.menuVentas()
-        elif seleccion == 5:
-            os.system("cls")
+        else:
             print("\n        Cerrando el 'Sistema y Gestión de Abastecimiento'\n                 SUPPLY TECHNOLOGY PLG.SA.")
             print("\n\n...Programa Finalizado.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
             exit()

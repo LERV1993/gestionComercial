@@ -58,7 +58,7 @@ class Validacion(object):
         while True:
             try:
                 while len(ingreso) < 1 or len(ingreso) >40:
-                    ingreso = input(f"\nIngrese el Email del cliente: ")
+                    ingreso = input(f"\nIngrese el Email: ")
                     if len(ingreso) < 1 or len(ingreso) >40:
                         os.system('cls')
                         print(f"\nEl email debe tener entre 1 y 40 caracteres.")
