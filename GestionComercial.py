@@ -284,7 +284,7 @@ class GestionComercial (object):
             artASolicitar = self.base.hacerConsulta("Articulos","codigoBarra",pedidoCodBarra)
             if not type(artASolicitar) == str:
                 pedidoCantidad = self.val.numero('Cantidad',1,1000)
-                pedidoFecha = self.val.fecha()
+                pedidoFecha = self.val.tiempoAhora()
                 nuevoPedido=[pedidoCodBarra,pedidoCantidad,artASolicitar[1],pedidoFecha,artASolicitar[5]]
                 self.gestProv.pedidoProveedor(nuevoPedido)
             else:
@@ -296,7 +296,7 @@ class GestionComercial (object):
             if not type(existeArt) == str:
                 devolucionCantidad = self.val.numero('Cantidad del artículo a devolver',1,1000)
                 devolucionMotivo = self.val.stringSinNum('Motivo de la devolución')
-                devolucionFecha = self.val.fecha()
+                devolucionFecha = self.val.tiempoAhora()
                 nuevaDevolucion = [devolucionCodBarra,devolucionCantidad,existeArt[5],devolucionMotivo,devolucionFecha]
                 self.gestProv.devolucionProveedor(nuevaDevolucion)
             else:
