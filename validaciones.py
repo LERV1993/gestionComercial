@@ -1,4 +1,5 @@
 import os
+import time 
 
 class Validacion(object):
     def numero(self,loQueSea,mayorQue,menorQue):
