@@ -143,6 +143,10 @@ class BaseDeDatos(object):
         self.cursor.execute(f"SELECT * FROM {tabla} LIMIT 100")
         registros = self.cursor.fetchall()
         return(list(registros))
+    def cantidadVentas(self,tabla,fecha):
+        self.cursor.execute(f"SELECT * FROM Ventas where fechaVenta = '{fecha}'")
+        registros = self.cursor.fetchall()
+        return(list(registros))
     def inicializacionBase(self):
         self.crearBase()
         self.conectarBaseDeDatos()

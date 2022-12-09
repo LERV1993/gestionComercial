@@ -79,16 +79,14 @@ class gestionVentas(object):
                     ''')
                     self.base.descuentaArticulos(nuevoCodBarra,cantADescontar)
                     listaArt.append(artVenta)
-                    print(f'''
+                    agregar = (f'''
                     Desea registrar más artículos en la Factura ?
-                    1: Si
-                    2: No
                     ''')
-                    opc=int(input("Ingrese opción: "))
-                    if opc==1:
+                    opc=self.menu.menuSiNo(agregar)
+                    if opc==True:
                         os.system("cls")
                         print("\nCompra Exitosa.\nArtículo solicitado al sector Depósito(descontado del stock)\nContinue con la carga de Artículos..")
-                    elif opc==2:
+                    elif opc==False:
                         os.system("cls")
                         break
                     else:
@@ -130,7 +128,7 @@ class gestionVentas(object):
                 cutiCliente=input("\nIngrese CUIT de cliente: ")
                 cliente=self.base.hacerConsulta('Clientes','DNI_Cli',nuevoDNI)
                 os.system("cls")
-                
+                artvendidos = []
                 print(f'''
                                     ♦============================================================♦
                                                               N° {numeroFactura1}
@@ -165,6 +163,7 @@ class gestionVentas(object):
                     resultado=contar[4]*contar[3]
                     resultado2=float(resultado)
                     total.append(resultado2)
+                    artvendidos.append(contar)
                 listaArt=+1
                 resultadoTotal=0
                 resultadoIva=0
@@ -178,9 +177,12 @@ class gestionVentas(object):
                                     Montos de compra__SubTotal__Iva 21%  $ {"{:.2f}".format(resultadoIva)}
                                                       Total______________$ {"{:.2f}".format(resultadoTotal)}
                                     ♦============================================================♦
-                                                ''')
-                vendido=[now,numeroFactura1,artVenta[0],artVenta[1],cantADescontar,cliente[0],resultadoTotal,cliente[1],cliente[2],cliente[6]]
-                self.base.registrarVenta(vendido)
+                                               ''')
+                for articulo in artvendidos: 
+                    valorVenta = (articulo[4]*articulo[3])* 121/100                               
+                    vendido=[now,numeroFactura1,articulo[0],articulo[1],articulo[4],cliente[0],valorVenta,cliente[1],cliente[2],cliente[6]]
+                    self.base.registrarVenta(vendido)
+                
 
 
 
@@ -194,6 +196,7 @@ class gestionVentas(object):
                 numeroFactura1= self.base.ultimaFactura()
                 
                 os.system("cls")
+                artvendidos = []
                 print(f'''
                                     ==============================================================
                                                               N° {numeroFactura1}
@@ -228,6 +231,7 @@ class gestionVentas(object):
                     resultado=contar[4]*contar[3]
                     resultado2=float(resultado)
                     total.append(resultado2)
+                    artvendidos.append(contar)
                 listaArt=+1
                 resultadoTotal=0
                 for contar in total:
@@ -237,16 +241,17 @@ class gestionVentas(object):
                                                       Total______________$ {"{:.2f}".format(resultadoTotal)}
                                     ♦============================================================♦
                                                 ''')
-                vendido=[now,numeroFactura1,artVenta[0],artVenta[1],cantADescontar,cliente[0],resultadoTotal,cliente[1],cliente[2],cliente[6]]
-                self.base.registrarVenta(vendido)
+                for articulo in artvendidos:                                
+                    vendido=[now,numeroFactura1,articulo[0],articulo[1],articulo[4],cliente[0],articulo[4]*articulo[3],cliente[1],cliente[2],cliente[6]]
+                    self.base.registrarVenta(vendido)
 
 
         else:
             print("\nOperación cancelada.")
         
-    def listadoVentas(self):
+    def listadoVentas(self,fecha):
             listaRegistros = []
-            registros= self.base.cantidadDeRegistros('Ventas')
+            registros= self.base.cantidadVentas('Ventas',fecha)
             datos = []
             mlist = []
             for lista in range(0,len(registros)):

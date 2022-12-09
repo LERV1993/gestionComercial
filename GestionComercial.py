@@ -270,7 +270,13 @@ class GestionComercial (object):
                     nuevaDir = self.val.string30('la nueva dirección del proveedor')
                     nuevoTel = self.val.numero('Nuevo Teléfono',1099999999,11099999999)
                     nuevoEmail = self.val.email()
-                    nuevoEstadoIva = self.val.stringSinNum('Estado de iva')
+                    selIVA = self.menu.menuSel(self.estadoIVa,3)
+                    if selIVA == 1:
+                        nuevoEstadoIva = 'Inscripto'
+                    elif selIVA == 2:
+                        nuevoEstadoIva = 'Exento'
+                    else:
+                        nuevoEstadoIva = 'Final'
                     nuevoProv = [nuevoCuit,nuevoNom,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
                     self.gestProv.modificarProv(provCuit,nuevoProv)
                 else:
@@ -390,7 +396,13 @@ class GestionComercial (object):
                     nuevaDir = self.val.string30('la nueva dirección del cliente')
                     nuevoTel = self.val.numero('Nuevo Teléfono',1099999999,11099999999)
                     nuevoEmail = self.val.email()
-                    nuevoEstadoIva = self.val.stringSinNum('Estado de iva')
+                    selIVA = self.menu.menuSel(self.estadoIVa,3)
+                    if selIVA == 1:
+                        nuevoEstadoIva = 'Inscripto'
+                    elif selIVA == 2:
+                        nuevoEstadoIva = 'Exento'
+                    else:
+                        nuevoEstadoIva = 'Final'
                     nuevoCli = [nuevoDNI,nuevoNom,nuevoApe,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
                     self.gestCli.modiClientes(cliente[0],nuevoCli)
                 else:
@@ -433,9 +445,10 @@ class GestionComercial (object):
 
             
         elif seleccion==2:
-            registros = self.base.cantidadDeRegistros('Ventas')
+            fecha = self.val.fecha()
+            registros = self.base.cantidadVentas('Ventas',fecha)
             if len(registros)>0:
-                self.gestVentas.listadoVentas()
+                self.gestVentas.listadoVentas(fecha)
             else:
                 print("\nNo existen registros para mostrar. Intente de nuevo más tarde.")
         else:

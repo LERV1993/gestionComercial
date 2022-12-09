@@ -67,7 +67,7 @@ class GestionArticulos(object):
             self.base.ingresarArticulos(codBarra,cantidad)
             print(f'\nCodigo de barra: {codBarra} Ingreso exitoso.')
         else:
-            print(f"\nERROR: El código de barra: {codBarra} ingresado no se encuentra registrado, genere el ingreso a través de alta.")
+            print(f"\nERROR: El código de barra: {codBarra} ingresado no se encuentra registrado, genere el ingreso a través de alta de artículo.")
     def ingresoRemito(self,listaArticulos,listaCantidades):
         for ind in range(0,len(listaArticulos)):
             self.ingresoArt(listaArticulos[ind],listaCantidades[ind])
