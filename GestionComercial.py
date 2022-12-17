@@ -97,19 +97,20 @@ class GestionComercial (object):
             nuevoCuit = self.val.numero('CUIT',9999999999,99999999999)
             cuitExiste = self.base.hacerConsulta('Proveedores','CUIL_CUIT_Prov',nuevoCuit)
             artACrear = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)
-            if type(artACrear) == str or artACrear[6] == 'I' and not type(cuitExiste) == str:
-                nuevoNom = self.val.string30('Nombre de artículo')
-                nuevaCat = self.val.stringSinNum('Categoría')
-                nuevoPrecio = self.val.precio('Precio',0.1,999999.99)
-                nuevaCant = self.val.numero('número de existencias',1,999)
-                estado = 'A'
-                nuevoArt = [nuevoCodBarra,nuevoNom,nuevaCat,nuevoPrecio,nuevaCant,nuevoCuit,estado]
-                self.gestArt.altaArt(nuevoArt[0],nuevoArt)
-            elif type(cuitExiste) == str:
-                print(input("""
-                    El CUIT ingresado no corresponde a ningún proveedor registrado.
-                    Genere el alta de proveedor y vuelva a ingrear el artículo.
-                    """))
+            if type(artACrear) == str or artACrear[6] == 'I':
+                if not type(cuitExiste) == str and cuitExiste[6]!= 'I':
+                    nuevoNom = self.val.string30('Nombre de artículo')
+                    nuevaCat = self.val.stringSinNum('Categoría')
+                    nuevoPrecio = self.val.precio('Precio',0.1,999999.99)
+                    nuevaCant = self.val.numero('número de existencias',1,999)
+                    estado = 'A'
+                    nuevoArt = [nuevoCodBarra,nuevoNom,nuevaCat,nuevoPrecio,nuevaCant,nuevoCuit,estado]
+                    self.gestArt.altaArt(nuevoArt[0],nuevoArt)
+                else:
+                    print("""
+                        El CUIT ingresado no corresponde a ningún proveedor registrado.
+                        Genere el alta de proveedor y vuelva a ingrear el artículo.
+                        """)
             else:
                 print("\nEl código de barra ingresado ya corresponde a un articulo registrado.\nSe salió del menu de alta de artículos.")
         elif seleccion == 2:
@@ -234,7 +235,7 @@ class GestionComercial (object):
                 ''')
             provCuit= self.val.numero('CUIT',9999999999,99999999999)
             proveedorAMod = self.base.hacerConsulta("Proveedores","CUIL_CUIT_Prov",provCuit)
-            if not type(proveedorAMod) == str:  
+            if not type(proveedorAMod) == str and proveedorAMod[6]!='I':  
                 subMenu = self.menu.menuNum(printModiProv,8)
                 if subMenu == 1:
                     nuevoCuit = self.val.numero('Nuevo CUIT',9999999999,99999999999)
@@ -285,10 +286,15 @@ class GestionComercial (object):
             pedidoCodBarra = self.val.numero('Código de barra',99999999999,999999999999)
             artASolicitar = self.base.hacerConsulta("Articulos","codigoBarra",pedidoCodBarra)
             if not type(artASolicitar) == str:
-                pedidoCantidad = self.val.numero('Cantidad',1,1000)
-                pedidoFecha = self.val.tiempoAhora()
-                nuevoPedido=[pedidoCodBarra,pedidoCantidad,artASolicitar[1],pedidoFecha,artASolicitar[5]]
-                self.gestProv.pedidoProveedor(nuevoPedido)
+                validarProv = self.base.hacerConsulta('Proveedores','CUIL_CUIT_Prov',artASolicitar[5])
+                if validarProv[6] != 'I':
+                    pedidoCantidad = self.val.numero('Cantidad',1,1000)
+                    pedidoFecha = self.val.tiempoAhora()
+                    nuevoPedido=[pedidoCodBarra,pedidoCantidad,artASolicitar[1],pedidoFecha,artASolicitar[5]]
+                    self.gestProv.pedidoProveedor(nuevoPedido)
+                else:
+                    os.system("cls")
+                    print("\nEl proveedor para el artículo seleccionado no se encuentra activo.")
             else:
                 os.system("cls")
                 print("\nEl articulo solicitado no esta registrado en la base de datos. Genere el alta primero.")
@@ -296,11 +302,16 @@ class GestionComercial (object):
             devolucionCodBarra = self.val.numero('Código de barra del artículo a devolver',99999999999,999999999999)
             existeArt = self.base.hacerConsulta('Articulos','codigoBarra',devolucionCodBarra)
             if not type(existeArt) == str:
-                devolucionCantidad = self.val.numero('Cantidad del artículo a devolver',1,1000)
-                devolucionMotivo = self.val.stringSinNum('Motivo de la devolución')
-                devolucionFecha = self.val.tiempoAhora()
-                nuevaDevolucion = [devolucionCodBarra,devolucionCantidad,existeArt[5],devolucionMotivo,devolucionFecha]
-                self.gestProv.devolucionProveedor(nuevaDevolucion)
+                validarProv = self.base.hacerConsulta('Proveedores','CUIL_CUIT_Prov',existeArt[5])
+                if validarProv[6] != 'I':
+                    devolucionCantidad = self.val.numero('Cantidad del artículo a devolver',1,1000)
+                    devolucionMotivo = self.val.stringSinNum('Motivo de la devolución')
+                    devolucionFecha = self.val.tiempoAhora()
+                    nuevaDevolucion = [devolucionCodBarra,devolucionCantidad,existeArt[5],devolucionMotivo,devolucionFecha]
+                    self.gestProv.devolucionProveedor(nuevaDevolucion)
+                else:
+                    os.system("cls")
+                    print("\nEl proveedor para el artículo seleccionado no se encuentra activo.")
             else:
                 print("\nEl artículo que se intenta devolver no está registrado en la base de datos.")
         else:
