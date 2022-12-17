@@ -46,7 +46,7 @@ class gestionVentas(object):
             listaArt=[]
             lista=[]
             cantADescontar=0
-            cantArt=self.val.numero('la cantidad de codigos de barra a facturar',0,12)
+            cantArt=self.val.numero('la cantidad de codigos de barra a facturar',1,10)
             for ind in range(0,cantArt):
                 nuevoCodBarra = self.val.numero('Código de Barra',99999999999,999999999999)
                 artVenta = self.base.hacerConsulta("Articulos","codigoBarra",nuevoCodBarra)
@@ -65,7 +65,7 @@ class gestionVentas(object):
                     print("\nPuede cancelar ingreso de artículo presionando 'ENTER' de lo contrario...")
                     cantADescontar = int(input("Ingrese cantidad de unidades a vender: "))
                     for elemento in artVenta:
-                        if cantADescontar<0 or cantADescontar>artVenta[4]:
+                        if cantADescontar<=0 or cantADescontar>artVenta[4]:
                             os.system("cls")
                             print(input("\nDebe ingresar cantidad existente en stock\nPresione 'ENTER' para cargar nuevamente el 'EAN' del producto requerido."))
                             os.system("cls")
@@ -158,7 +158,7 @@ class gestionVentas(object):
                 resultadoIva=0
                 for contar in total:
                     resultadoTotal=resultadoTotal+contar
-                resultadoIva=resultadoTotal*21/100
+                resultadoIva=resultadoTotal*10.5/100
                 print(f'''    
                                     ♦============================================================♦ 
                      
@@ -167,9 +167,8 @@ class gestionVentas(object):
                                                       Total______________$ {"{:.2f}".format(resultadoTotal)}
                                     ♦============================================================♦
                                                ''')
-                for articulo in artvendidos: 
-                    valorVenta = (articulo[4]*articulo[3])* 121/100                               
-                    vendido=[now,numeroFactura1,articulo[0],articulo[1],articulo[4],cliente[0],valorVenta,cliente[1],cliente[2],cliente[6]]
+                for articulo in artvendidos:                               
+                    vendido=[now,numeroFactura1,articulo[0],articulo[1],articulo[4],cliente[0],resultadoTotal,resultadoIva,cliente[1],cliente[2],cliente[6]]
                     self.base.registrarVenta(vendido)
                 
 
@@ -231,7 +230,7 @@ class gestionVentas(object):
                                     ♦============================================================♦
                                                 ''')
                 for articulo in artvendidos:                                
-                    vendido=[now,numeroFactura1,articulo[0],articulo[1],articulo[4],cliente[0],articulo[4]*articulo[3],cliente[1],cliente[2],cliente[6]]
+                    vendido=[now,numeroFactura1,articulo[0],articulo[1],articulo[4],cliente[0],articulo[4]*articulo[3],0,cliente[1],cliente[2],cliente[6]]
                     self.base.registrarVenta(vendido)
 
 
