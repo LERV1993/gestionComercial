@@ -160,8 +160,10 @@ class gestionVentas(object):
                                                             Total______________$ {"{:.2f}".format(resultadoTotal)}
                                             ♦============================================================♦
                                                     ''')
-                        for articulo in artvendidos:                               
-                            vendido=[now,numeroFactura1,articulo[0],articulo[1],articulo[4],nuevoCli[0],resultadoTotal,resultadoIva,nuevoCli[1],nuevoCli[2],nuevoCli[6]]
+                        for articulo in artvendidos:
+                            precioArticulo = articulo[3]*articulo[4]
+                            iva=round(float(precioArticulo)*10.5/100,2)                              
+                            vendido=[now,numeroFactura1,articulo[0],articulo[1],articulo[4],nuevoCli[0],precioArticulo,iva,nuevoCli[1],nuevoCli[2],nuevoCli[6]]
                             self.base.descuentaArticulos(articulo[0],articulo[4])
                             self.base.registrarVenta(vendido)
                         
@@ -222,7 +224,7 @@ class gestionVentas(object):
                                                             Total______________$ {"{:.2f}".format(resultadoTotal)}
                                             ♦============================================================♦
                                                         ''')
-                        for articulo in artvendidos:                                
+                        for articulo in artvendidos:                              
                             vendido=[now,numeroFactura1,articulo[0],articulo[1],articulo[4],nuevoCli[0],articulo[4]*articulo[3],0,nuevoCli[1],nuevoCli[2],nuevoCli[6]]
                             self.base.descuentaArticulos(articulo[0],articulo[4])
                             self.base.registrarVenta(vendido)

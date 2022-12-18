@@ -277,7 +277,6 @@ class GestionComercial (object):
                     nuevoProv = [nuevoCuit,nuevoNom,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
                     self.gestProv.modificarProv(provCuit,nuevoProv)
                 else:
-                    os.system("cls")
                     print("\nSe salió del menu de modificación de proveedor.")
             else:
                 os.system("cls")

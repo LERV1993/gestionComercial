@@ -71,9 +71,9 @@ class GestionProveedor(object):
             if self.menu.menuSiNo(print1):
                 os.system('cls')
                 self.base.modificarProveedor(Prov,modprov)
-                print('\nSe ha modificado los datos exitosamente.\n')
+                print('\nSe ha modificado los datos exitosamente.')
             else:
-                print('\nSe canceló la operación.\n')
+                print('\nSe canceló la operación.')
         else:
             print("CUIL/CUIT no registrado en Tabla Proveedores.")
     def pedidoProveedor(self,pedidoprov):
