@@ -420,7 +420,7 @@ class GestionComercial (object):
                         nuevoEstadoIva = 'Final'
                     estado = 'A'
                     nuevoCli = [nuevoDNI,nuevoNom,nuevoApe,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva,estado]
-                    self.gestCli.modiClientes(cliente[0],nuevoCli)
+                    self.gestCli.modiClientes(dniCliente,nuevoCli)
                 else:
                     pass
             else:
