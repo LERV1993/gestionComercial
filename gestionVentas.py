@@ -54,14 +54,14 @@ class gestionVentas(object):
                     ''')
                 cantADescontar=0
                 print("\nPuede cancelar ingreso de artículo presionando 'ENTER' de lo contrario...")
-                cantADescontar = int(input("Ingrese cantidad de unidades a vender: "))
+                cantADescontar = self.val.numero("número de unidades a vender",1,100)
                 totalCompra=artVenta[3]*cantADescontar
                 os.system("cls")
                 artVenta[4]=cantADescontar            
                 listaArt.append(artVenta)
             else:
                 print(input("\nEl código de barra ingresado no corresponde a un artículo registrado, genere el alta primero.\nPresione ENTER para continuar...."))
-                pass
+                break
         codBarraVerif=[]
         repetidos = []
         for articulo in listaArt:
@@ -237,7 +237,7 @@ class gestionVentas(object):
                 print("\nSe han ingresado códigos de barra repetidos.\nVerifique las cantidades y vuelva a intentarlo.")
         else:
             os.system('cls')
-            print("\nOcurrio un error durante la facturación: Ingreso de artículo dado de baja.\nSe canceló la operación.")
+            print("\nOcurrio un error durante la facturación: Ingreso de artículo no registrado.\nSe canceló la operación.")
 
     def listadoVentas(self,fecha):
             listaRegistros = []
@@ -246,7 +246,7 @@ class gestionVentas(object):
             mlist = []
             for lista in range(0,len(registros)):
                 for elemento in range(0,len(registros[lista])):
-                    if elemento != 1 and elemento < 10:
+                    if elemento != 1 and elemento < 11:
                         mlist.append(registros[lista][elemento])
                     elif elemento == 1:
                         mlist.append(str(registros[lista][elemento]))
@@ -254,18 +254,17 @@ class gestionVentas(object):
                         mlist.append(str(registros[lista][elemento]))
                         datos.append(mlist)
                         mlist=[]
-             
                     
             for registro in datos:
                 listaRegistros.append(list(registro))
                 tablaVentas = """\
-                                                                     ---------------------- Se muestra un límite de 100 registros ----------------------                           
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|   COD.VTA.       FECHA FACT.        N°FACTURA        COD.BARRA                NOMBRE ART              CANT.ART.    MONTO ART.    DNI CLI.               NOM.CLI.                      APELL.CLI.            SIT.IVA CLI. |   
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+                                                                
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|     FECHA FACT.        N°FACTURA        COD.BARRA                NOMBRE ART              CANT.ART.          MONTO TOT.              IVA             DNI CLI.    IVA ClIENTE |   
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 {}                                                                                                                                                                                                                   
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\
 """
-                tablaVentas = (tablaVentas.format('\n'.join("| {0:^10} | {1:^18} | {2:^12} | {3:^16} | {4:^30} | {5:^10} | {6:^10} | {7:^10} | {8:^30}| {9:^30} | {10:^11} |".format(*fila)
+                tablaVentas = (tablaVentas.format('\n'.join("| {1:^18} | {2:^12} | {3:^16} | {4:^30} | {5:^10} | {6:^20} | {7:^20} | {8:^10} | {11:^11} |".format(*fila)
                 for fila in listaRegistros)))
             print(tablaVentas)
