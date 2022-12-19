@@ -164,7 +164,8 @@ class GestionComercial (object):
                     nuevaCat = self.val.stringSinNum('Nueva Categoría')
                     nuevoPrecio = self.val.precio('Nuevo Precio',0.1,999999.99)
                     nuevaCant = self.val.numero('número de existencias',1,999)
-                    articuloModi = [nuevoCodBarra,nuevoNom,nuevaCat,nuevoPrecio,nuevaCant]
+                    estado='A'
+                    articuloModi = [nuevoCodBarra,nuevoNom,nuevaCat,nuevoPrecio,nuevaCant,artAMod[5],estado]
                     self.gestArt.modificacionArt(codBarra,articuloModi)
                 else:
                     pass
@@ -273,8 +274,15 @@ class GestionComercial (object):
                     nuevaDir = self.val.string30('la nueva dirección del proveedor')
                     nuevoTel = self.val.numero('Nuevo Teléfono',1099999999,11099999999)
                     nuevoEmail = self.val.email()
-                    nuevoEstadoIva = self.val.stringSinNum('Estado de iva')
-                    nuevoProv = [nuevoCuit,nuevoNom,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
+                    selIVA = self.menu.menuSel(self.estadoIVa,3)
+                    if selIVA == 1:
+                        nuevoEstadoIva = 'Inscripto'
+                    elif selIVA == 2:
+                        nuevoEstadoIva = 'Exento'
+                    else:
+                        nuevoEstadoIva = 'Final'
+                    estado = 'A'
+                    nuevoProv = [nuevoCuit,nuevoNom,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva,estado]
                     self.gestProv.modificarProv(provCuit,nuevoProv)
                 else:
                     print("\nSe salió del menu de modificación de proveedor.")
@@ -403,8 +411,15 @@ class GestionComercial (object):
                     nuevaDir = self.val.string30('la nueva dirección del cliente')
                     nuevoTel = self.val.numero('Nuevo Teléfono',1099999999,11099999999)
                     nuevoEmail = self.val.email()
-                    nuevoEstadoIva = self.val.stringSinNum('Estado de iva')
-                    nuevoCli = [nuevoDNI,nuevoNom,nuevoApe,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva]
+                    selIVA = self.menu.menuSel(self.estadoIVa,3)
+                    if selIVA == 1:
+                        nuevoEstadoIva = 'Inscripto'
+                    elif selIVA == 2:
+                        nuevoEstadoIva = 'Exento'
+                    else:
+                        nuevoEstadoIva = 'Final'
+                    estado = 'A'
+                    nuevoCli = [nuevoDNI,nuevoNom,nuevoApe,nuevaDir,nuevoTel,nuevoEmail,nuevoEstadoIva,estado]
                     self.gestCli.modiClientes(cliente[0],nuevoCli)
                 else:
                     pass
